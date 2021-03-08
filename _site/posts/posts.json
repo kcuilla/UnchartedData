@@ -1,0 +1,26 @@
+[
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to KC Analytics",
+    "description": "Welcome to our new blog, KC Analytics. We hope you enjoy \nreading what we have to say!",
+    "author": [],
+    "date": "2021-03-05",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-05T16:29:13-05:00",
+    "input_file": "welcome.utf8.md"
+  },
+  {
+    "path": "posts/2021-03-05-title-of-post/",
+    "title": "RStudio Table Contest",
+    "description": "A short description of the post.",
+    "author": [],
+    "date": "2021-03-05",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-05T16:31:00-05:00",
+    "input_file": "RStudio-Table-Contest.utf8.md"
+  }
+]
