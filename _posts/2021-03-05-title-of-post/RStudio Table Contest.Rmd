@@ -485,4 +485,3 @@ tags$link(href = "https://fonts.googleapis.com/css?family=Karla:400,700|Fira+Mon
   margin-right: auto;
 }
 ```
-

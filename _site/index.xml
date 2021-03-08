@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>KC Analytics</title>
+    <link>https://kcanalytics.netlify.app/</link>
+    <atom:link href="https://kcanalytics.netlify.app/index.xml" rel="self" type="application/rss+xml"/>
+    <description>KC Analytics
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Fri, 05 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Welcome to KC Analytics</title>
+      <link>https://kcanalytics.netlify.app/posts/welcome</link>
+      <description>Welcome to our new blog, KC Analytics. We hope you enjoy 
+reading what we have to say!</description>
+      <guid>https://kcanalytics.netlify.app/posts/welcome</guid>
+      <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>2020 RStudio Table Contest</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</link>
+      <description>My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</guid>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>

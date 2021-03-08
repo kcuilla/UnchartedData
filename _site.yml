@@ -2,6 +2,7 @@ name: "kc_analytics"
 title: "KC Analytics"
 description: |
   KC Analytics
+base_url: https://kcanalytics.netlify.app/
 output_dir: "_site"
 navbar:
   right:
