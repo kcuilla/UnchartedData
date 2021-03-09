@@ -2,7 +2,7 @@
 title: "Creating Interactive Maps in R"
 description: |
   This post shows you how to create interactive maps in R using the highcharter package.
-date: 03-05-2021
+date: 04-05-2020
 output:
   distill::distill_article:
     self_contained: false
