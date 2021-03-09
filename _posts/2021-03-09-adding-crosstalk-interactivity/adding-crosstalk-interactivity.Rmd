@@ -1,0 +1,779 @@
+---
+title: "Adding Crosstalk Interactivity"
+description: |
+  Linking an interactive plot and table together with the crosstalk package.
+date: 01-15-2021
+output:
+  distill::distill_article:
+    cold_folding: true
+---
+
+# What is Crosstalk?
+
+[Crosstalk](https://rstudio.github.io/crosstalk/) is an R package that is used to implement cross-interactivity between htmlwidgets. Think of it like Shiny, where you can add filter controls to a shared dataset that can update across multiple plots/tables. The nice thing about `crosstalk` is that it does not have to be used in Shiny. It can be used in your R console or in an HTML R Markdown document like I am using to display this blog post.
+
+# Process
+
+The table I will be adding `crosstalk` interactivity to will be the table I submitted for the 2020 RStudio Table Contest (see the blog post about it [here](https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/)).
+
+The goal is to link the `reactable` table I created to a `plotly` chart and provide additional filter options that control both the table and the chart.
+
+The main inspiration for this came from [538's NBA Player Ratings](https://projects.fivethirtyeight.com/2020-nba-player-ratings/?ex_cid=irpromo).
+
+Below, I will show you how I created everything from start to finish. Click "show code" to see the code for each step.
+
+# Step 1
+
+### Load Libraries and Gather Data
+
+The data I used comes from the 2019 NFL Standings & Team Stats page on the [Pro Football Reference website](https://www.pro-football-reference.com/years/2019/). I utilized the `rvest` package to scrape the data from the AFC and NFC Standings table and combined them into a single dataset.
+
+To get the primary color for each team, I used the `nflfastR` package and joined it to the dataset.
+
+I then used packages such as `dplyr`, `tidyr`, and `stringr` to clean and tidy the data so that it could be easily used for visualization. 
+
+The packages used to create the data visualization are `reactable`, `htmltools`, `htmlwidgets`, `plotly`, and of course, `crosstalk`.
+
+An important note: in order to use `crosstalk`, you must create a shared dataset and call that dataset within both `plotly` and `reactable`. Otherwise, your dataset will not communicate and filter with eachother. The code to do this is `SharedData$new(dataset)`.
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r, code_folding=TRUE}
+library(rvest)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(htmltools)
+library(htmlwidgets)
+library(reactable)
+library(plotly)
+library(crosstalk)
+library(nflfastR)
+```
+
+```{r, code_folding=TRUE}
+url <- "https://www.pro-football-reference.com/years/2019/"
+
+AFC_table <- url %>%
+  xml2::read_html() %>%
+  html_nodes(xpath = '//*[@id="AFC"]') %>%
+  html_table()
+
+AFC_table <- AFC_table[[1]]
+
+NFC_table <- url %>%
+  xml2::read_html() %>%
+  html_nodes(xpath = '//*[@id="NFC"]') %>%
+  html_table()
+
+NFC_table <- NFC_table[[1]]
+
+NFL_table <- rbind(AFC_table, NFC_table)
+
+teams_colors <- teams_colors_logos %>% 
+  filter(!team_abbr %in% c("LA", "OAK", "STL", "SD"))
+
+NFL_table_clean <- NFL_table %>%
+  ### Create NFL divisions column
+  mutate(Division = ifelse(str_detect(Tm, "FC"), Tm, NA)) %>%
+  fill(Division, .direction = "down") %>%
+  ### Create NFL conferences column
+  mutate(Conference = ifelse(str_detect(Division, "NFC"), "NFC", "AFC")) %>%
+  ### Remove team division names from Tm column
+  filter(str_detect(Tm, "FC", negate = TRUE)) %>%
+  ### Add column to say if team made playoffs based off of pre-existing asterisks
+  mutate(Playoffs = ifelse(str_detect(Tm, "[*+]"), "Yes", "No")) %>%
+  ### Remove asterisks and plus signs next to team names
+  mutate(Tm = gsub("[*+]", "", Tm)) %>%
+  rename(Record = `W-L%`) %>%
+  ### Convert W, L, T into one column named "Record"
+  unite(Record, W, L, T, sep = "-") %>%
+  ### Convert W, L, T into one column named "Record"
+  mutate(
+    Team = case_when(
+      Tm == "Oakland Raiders" ~ "Las Vegas Raiders",
+      Tm == "Washington Redskins" ~ "Washington Football Team",
+      T ~ Tm
+    )
+  ) %>%
+  ### Join team colors from nflfastR
+  inner_join(teams_colors, by = c("Team" = "team_name")) %>% 
+  mutate(Team = word(Tm, -1)) %>% 
+  mutate(
+    Team = case_when(
+      Team == "Redskins" ~ "Washington",
+      TRUE ~ Team
+    )
+  ) %>%
+  ### Convert columns containing numbers from character to numeric
+  mutate_at(c("SRS", "OSRS", "DSRS", "PF", "PA", "PD", "MoV", "SoS"),
+            as.numeric) %>%
+  ### Bucket SoS column into four groups, add Rank column by SRS
+  mutate(SoS_rating = ntile(SoS, 4),
+         Rank = rank(-SRS, ties.method = "last")) %>%
+  mutate(
+    SoS_rating = case_when(
+      SoS_rating == 1 ~ "Easy",
+      SoS_rating == 2 ~ "Moderate",
+      SoS_rating == 3 ~ "Difficult",
+      SoS_rating == 4 ~ "Most Difficult"
+    )
+  ) %>%
+  mutate(SoS_rating = factor(
+    SoS_rating,
+    levels = c("Easy", "Moderate", "Difficult", "Most Difficult")
+  )) %>%
+  select(
+    Division,
+    Conference,
+    Rank,
+    Team,
+    team_color,
+    Record,
+    Playoffs,
+    SoS_rating,
+    PF,
+    PA,
+    MoV,
+    OSRS,
+    DSRS,
+    SRS
+  )
+
+NFL_table_clean_shared <- SharedData$new(NFL_table_clean)
+```
+
+# Step 2
+
+### Build the Interactive Plot
+
+I tried to model the design of the interactive plot after the one shown in 538's [NBA Player Ratings](https://projects.fivethirtyeight.com/2020-nba-player-ratings/?ex_cid=irpromo). One element I added was adding color to the circles with the primary color of each team.
+
+While creating the interactive plot, I frequently referenced this [Plotly guide](https://plotly.com/r/) from the makers of the `plotly` package. I highly recommend checking out this guide if you are interested in learning `plotly`.
+
+```{r, code_folding=TRUE}
+interactive_plot <-
+  plot_ly(
+    NFL_table_clean_shared,
+    x = ~ OSRS,
+    y = ~ DSRS,
+    text = ~paste(Team),
+    hoverinfo = "text",
+    hovertemplate = paste(
+      "<b>%{text}</b><br>",
+      "%{xaxis.title.text}: <b>%{x:+.1f}</b><br>",
+      "%{yaxis.title.text}: <b>%{y:+.1f}</b><br>",
+      "<extra></extra>"
+    ),
+    marker = list(
+      size = ~ PF,
+      sizeref = 1,
+      sizemode = 'area',
+      color = ~ team_color,
+      opacity = 0.6,
+      line = list(color = "black",
+                  width = 1)
+    ),
+    width = 625,
+    height = 400
+  ) %>%
+  ### Top right (+Offense +Defense)
+  add_annotations(
+    x = 9,
+    y = 9.5,
+    xref = "x",
+    yref = "y",
+    text = "+ Offense",
+    bgcolor = "#67a9cf",
+    showarrow = F
+  ) %>%
+  add_annotations(
+    x = 9,
+    y = 8,
+    xref = "x",
+    yref = "y",
+    text = "+ Defense",
+    bgcolor = "#67a9cf",
+    showarrow = F
+  ) %>%
+  ### Bottom left (-Offense -Defense)
+  add_annotations(
+    x = -8.5,
+    y = -8,
+    xref = "x",
+    yref = "y",
+    text = "- Offense",
+    bgcolor = "#fd5e53",
+    showarrow = F
+  ) %>%
+  add_annotations(
+    x = -8.5,
+    y = -9.5,
+    xref = "x",
+    yref = "y",
+    text = "- Defense",
+    bgcolor = "#fd5e53",
+    showarrow = F
+  ) %>%
+  ### Bottom right (+Offense -Defense)
+  add_annotations(
+    x = 9,
+    y = -8,
+    xref = "x",
+    yref = "y",
+    text = "+ Offense",
+    bgcolor = "#67a9cf",
+    showarrow = F
+  ) %>%
+  add_annotations(
+    x = 9,
+    y = -9.5,
+    xref = "x",
+    yref = "y",
+    text = "- Defense",
+    bgcolor = "#fd5e53",
+    showarrow = F
+  ) %>%
+  ### Top left (-Offense +Defense)
+  add_annotations(
+    x = -8.5,
+    y = 9.5,
+    xref = "x",
+    yref = "y",
+    text = "- Offense",
+    bgcolor = "#fd5e53",
+    showarrow = F
+  ) %>%
+  add_annotations(
+    x = -8.5,
+    y = 8,
+    xref = "x",
+    yref = "y",
+    text = "+ Defense",
+    bgcolor = "#67a9cf",
+    showarrow = F
+  ) %>%
+  layout(
+    autosize = FALSE,
+    xaxis = list(
+      range = c(-10.5, 12.5),
+      fixedrange = TRUE,
+      zeroline = TRUE,
+      ticks = "outside",
+      tickcolor = "#fff",
+      tickformat = "+",
+      tickfont = list(size = 14),
+      titlefont = list(family = "Open Sans",
+                       size = 20),
+      title = "Offensive SRS"
+    ),
+    yaxis = list(
+      range = c(-10.5, 10.5),
+      fixedrange = TRUE,
+      zeroline = TRUE,
+      ticks = "outside",
+      tickcolor = "#fff",
+      tickformat = "+",
+      tickfont = list(size = 14),
+      titlefont = list(family = "Open Sans",
+                       size = 20),
+      title = "Defensive SRS"
+    ),
+    hoverlabel = list(font = list(family = "Open Sans",
+                                  size = 16))
+  ) %>%
+  highlight(on = "plotly_selected") %>%
+  config(displayModeBar = FALSE)
+```
+
+# Step 3
+
+### Build the Interactive Table
+
+If you expand the code below, you'll see that the code to build a table in `reactable` is quite extensive. I will not go into the details in this post, but do recommend a couple great tutorials that I used to create the interactive table such as this [tutorial](https://glin.github.io/reactable/index.html) from Greg Lin, and [this](https://themockup.blog/posts/2020-05-13-reactable-tables-the-rest-of-the-owl/) from Tom Mock which really helped me understand how to use CSS and Google fonts to enhance the visual appeal of the table (see the "Additional CSS Used for Table" section below for more info).
+
+<b>Update: I created a package called `reactablefmtr` that was designed to make creating tables in `reactable` MUCH easier. The link to the package site can be found [here](https://kcuilla.github.io/reactablefmtr/index.html).</b>
+
+```{r, code_folding=TRUE}
+### format for horizontal bar chart used in the points scored/against columns
+bar_chart <-
+  function(label,
+           width = "100%",
+           height = "13px",
+           fill = "#00bfc4",
+           background = NULL) {
+    bar <-
+      div(style = list(
+        background = fill,
+        width = width,
+        height = height
+      ))
+    chart <-
+      div(style = list(
+        flexGrow = 1,
+        marginLeft = "8px",
+        background = background
+      ),
+      bar)
+    div(style = list(display = "flex", alignItems = "center"), label, chart)
+  }
+
+### Create orange-blue color palette for Team Rating SRS columns
+make_color_pal <- function(colors, bias = 1) {
+  get_color <- colorRamp(colors, bias = bias)
+  function(x)
+    rgb(get_color(x), maxColorValue = 255)
+}
+off_rating_color <-
+  make_color_pal(c("#67a9cf", "#f8fcf8", "#ef8a62"), bias = 1.3)
+def_rating_color <-
+  make_color_pal(c("#67a9cf", "#f8fcf8", "#ef8a62"), bias = 0.8)
+team_rating_column <- function(maxWidth = 55, ...) {
+  colDef(
+    maxWidth = maxWidth,
+    align = "right",
+    class = "cell number",
+    headerStyle = list(fontWeight = "500"),
+    ...
+  )
+}
+
+table <-
+    reactable(
+      NFL_table_clean_shared,
+      pagination = FALSE,
+      showSortIcon = FALSE,
+      highlight = TRUE,
+      compact = TRUE,
+      defaultSorted = "SRS",
+      defaultSortOrder = "desc",
+      defaultColDef = colDef(headerClass = "header colheader"),
+      columnGroups = list(
+        colGroup(
+          name = "Team Rating (SRS)",
+          columns = c("SRS", "OSRS", "DSRS"),
+          headerClass = "groupheader"
+        ),
+        colGroup(
+          name = "Team Scoring & Margin of Victory",
+          columns = c("PF", "PA", "MoV"),
+          headerClass = "groupheader"
+        )
+      ),
+      # Add border between Divisions when sorting by Division
+      rowClass = JS("
+        function(rowInfo, state) {
+          const firstSorted = state.sorted[0]
+          if (firstSorted && firstSorted.id === 'Division') {
+            const nextRow = state.pageRows[rowInfo.viewIndex + 1]
+            if (nextRow && rowInfo.row.Division !== nextRow.Division) {
+              return 'Division-last'
+            }
+          }
+        }"
+      ),
+      columns = list(
+        Division = colDef(
+          class = "division-name cell",
+          maxWidth = 90,
+          ### Group teams into divisions when sorting by division - if sorting by other column then ungroup
+          style = JS("function(rowInfo, colInfo, state) {
+        var firstSorted = state.sorted[0]
+        if (!firstSorted || firstSorted.id === 'Division') {
+          var prevRow = state.pageRows[rowInfo.viewIndex - 1]
+        }
+      }")),
+      Team = colDef(
+        minWidth = 180,
+        class = "cell",
+        cell = function(value, index) {
+          ### Team logos from images folder
+          img_src <- knitr::image_uri(sprintf("images/%s.png", value))
+          image <- img(class = "logo",
+                     src = img_src,
+                     alt = value)
+          div(class = "team", image,
+            ### Team name
+            div(class = "team-name", value),
+            ### Team record
+            div(class = "record",  sprintf("(%s)", NFL_table_clean[index, "Record"])))
+      }
+    ), 
+        ### Hide separate record column
+        Record = colDef(show = FALSE),
+        team_color = colDef(show = FALSE),
+        Rank = colDef(show = FALSE),
+        Conference = colDef(show = FALSE),
+        SRS = team_rating_column(
+          name = "Total",
+          cell = function(value) {
+            ### Normalize team rating in order to assign color from color palette
+            normalized <-
+              (value - min(NFL_table_clean$SRS)) / (max(NFL_table_clean$SRS) - min(NFL_table_clean$SRS))
+            color <- off_rating_color(normalized)
+            value <- format(value, nsmall = 1, digits = 1)
+            ### Round corners of cell
+            div(class = "roundcorners",
+                style = list(background = color),
+                value)
+          }
+        ),
+        OSRS = team_rating_column(
+          name = "Off.",
+          cell = function(value) {
+            ### Normalize team rating in order to assign color from color palette
+            normalized <-
+              (value - min(NFL_table_clean$OSRS)) / (max(NFL_table_clean$OSRS) - min(NFL_table_clean$OSRS))
+            color <- off_rating_color(normalized)
+            value <- format(value, nsmall = 1, digits = 1)
+            ### Round corners of cell
+            div(class = "roundcorners",
+                style = list(background = color),
+                value)
+          }
+        ),
+        DSRS = team_rating_column(
+          name = "Def.",
+          cell = function(value) {
+          ### Normalize team rating in order to assign color from color palette
+            normalized <-
+              (value - min(NFL_table_clean$DSRS)) / (max(NFL_table_clean$DSRS) - min(NFL_table_clean$DSRS))
+            color <- off_rating_color(normalized)
+            value <- format(value, nsmall = 1, digits = 1)
+            ### Round corners of cell
+            div(class = "roundcorners",
+                style = list(background = color),
+                value)
+          }
+        ),
+        PF = colDef(
+          name = "Pts. Scored",
+          align = "left",
+          ### Add column border to left side of column
+          class = "border-left cell number",
+          headerStyle = list(fontWeight = "500"),
+          cell = function(value) {
+            ### Calculate width of bar color to display
+            width <- paste0(value / max(NFL_table_clean$PF) * 100, "%")
+            bar_chart(value,
+                      width = width,
+                      fill = "#ef8a62",
+                      background = "#e1e1e1")
+          }
+        ),
+        PA = colDef(
+          name = "Pts. Against",
+          align = "left",
+          class = "cell number",
+          headerStyle = list(fontWeight = "500"),
+          cell = function(value) {
+            ### Calculate width of bar color to display
+            width <- paste0(value / max(NFL_table_clean$PA) * 100, "%")
+            bar_chart(value,
+                      width = width,
+                      fill = "#ef8a62",
+                      background = "#e1e1e1")
+          }
+        ),
+        MoV = colDef(
+          maxWidth = 55,
+          ### Add column border to right side of column
+          class = "cell number border-right ",
+          headerStyle = list(fontWeight = "500"),
+          ### For any positive number, add "+" sign. For any negative number leave as is
+          cell = function(value) {
+            if (value > 0)
+              paste0("+", value)
+            else
+              value
+          },
+          ### For any positive number, assign green color. For any negative number assign red color
+          style = function(value) {
+            if (value > 0) {
+              color <- "#008000"
+            } else if (value < 0) {
+              color <- "#e00000"
+            } else {
+              color <- "#777"
+            }
+            list(color = color)
+          }
+        ),
+        SoS_rating = colDef(
+          name = "SoS",
+          align = "center",
+          maxWidth = 65,
+          class = "cell number border-left",
+          cell = function(value) {
+          ### For teams that were assigned a SoS_rating of 4 (highest rating), show a double-black diamond (note: there was no diamond icon available in the Font Awesome Free library, so the solution was to use a square icon and rotate it at a 45 degree angle)
+            if (value == 4) {
+              ### In order to display two icons in the same column, they need to be placed in a list
+              list(tagAppendAttributes(shiny::icon("square", class = "rotate")),
+                   tagAppendAttributes(shiny::icon("square", class = "rotate")))
+              ### For teams that were assigned a SoS_rating of 3, show a single black diamond
+            } else if (value == 3) {
+              tagAppendAttributes(shiny::icon("square", class = "rotate"))
+              ### For teams that were assigned a SoS_rating of 2, show a blue square
+            } else if (value == 2) {
+              tagAppendAttributes(shiny::icon("square"))
+            } else {
+              ### For teams that were assigned a SoS_rating of 1, show a green circle
+              tagAppendAttributes(shiny::icon("circle"))
+            }
+          },
+          style = function(value) {
+            ### Assign colors to icons
+            if (value %in% c(3, 4)) {
+              color <- "black"
+            } else if (value == 2) {
+              color <- "blue"
+            } else {
+              color <- "green"
+            }
+            list(color = color)
+          }
+        ),
+        Playoffs = colDef(
+          maxWidth = 75,
+          align = "center",
+          class = "cell number border-left",
+          ### If team made the playoffs in 2019, assign a green check mark. If they did not, assign a red X symbol
+          cell = function(value) {
+            if (value == "Yes")
+              tagAppendAttributes(shiny::icon("check"))
+            else
+              tagAppendAttributes(shiny::icon("times"))
+          },
+          ### Assign colors to icons
+          style = function(value) {
+            if (value == "Yes") {
+              color <- "green"
+            } else {
+              color <- "red"
+            }
+            list(color = color)
+          }
+        )
+      )
+    )
+```
+
+# Step 4
+
+### Add Crosstalk Filters
+
+If you have ever built something in `Shiny` before, you'll notice that the `crosstalk` filters are very similar. You can add a filter to any existing column in the dataset. As you can see in the code below, I used a mixture of `filter_checkbox` and `filter_select` depending on how many unique options were available in the column you're filtering. My rule of thumb is if there are more than five options to choose from it's probably better to put them into a list in `filter_select` like I did with the Division filtering as to not take up too much space on the page.
+
+```{r, code_folding=TRUE}
+conf_filter <- filter_checkbox(
+  id = "conf",
+  label = "Conference",
+  inline = TRUE,
+  sharedData = NFL_table_clean_shared,
+  group = ~ Conference
+)
+
+div_filter <- filter_select(
+  id = "divi",
+  label = "Division",
+  sharedData = NFL_table_clean_shared,
+  group = ~ Division
+)
+
+playoff_filter <- filter_checkbox(
+  id = "play",
+  label = "Playoffs",
+  sharedData = NFL_table_clean_shared,
+  group = ~ Playoffs
+)
+
+sos_filter <- filter_checkbox(
+  id = "sos",
+  label = "Strength of Schedule (SoS)",
+  sharedData = NFL_table_clean_shared,
+  group = ~ SoS_rating
+)
+
+srs_filter <- filter_slider(
+  id = "srs",
+  label = "Team Rating (SRS): Total",
+  sharedData = NFL_table_clean_shared,
+  column = ~ SRS,
+  ticks = FALSE,
+  step = 1
+)
+```
+
+# Step 5
+
+### Put it All Together
+
+For the layout of the data visualization, I used `bscols` to place the `crosstalk` filters side-by-side with the interactive `plotly` chart.
+
+I then placed the `reactable` table underneath and added a legend to the table using tags from the `htmltools` package.
+
+The final result is shown below. Feel free to click around and the filters and you will notice that both the plot and the table will filter accordingly. Another option is to drag and click on the plot and you will see the table underneath mimic the teams shown.
+
+```{r, code_folding=TRUE}
+div(
+  div(class = "title",
+      h2("2019 NFL Team Stats & Ratings")),
+  class = "filtertext",
+  bscols(
+    widths = c(3, NA),
+    list(
+      srs_filter,
+      sos_filter,
+      conf_filter,
+      playoff_filter,
+      div_filter
+    ),
+    interactive_plot
+  ),
+  div(class = "linebreak")
+)
+
+div(class = "table-font",
+    table,
+  ### Add legend and source below the table
+  tags$span(
+    style = "color:#777",
+    "Note: Strength of Schedule (SoS) aligns with the ski trail difficulty rating system:", 
+    ### In order to display icons with color, needed to create a new css class for the symbols that contained a color option
+    tagAppendAttributes(shiny::icon("circle", class = "green-circle-legend")), "= Easy",
+    tagAppendAttributes(shiny::icon("square", class = "blue-square-legend")), "= Moderate",  
+    tagAppendAttributes(shiny::icon("square", class = "black-diamond-legend1")), "= Difficult", 
+    list(tagAppendAttributes(shiny::icon("square", class = "black-diamond-legend1")),
+                   tagAppendAttributes(shiny::icon("square", class = "black-diamond-legend2"))), "= Most Difficult",
+    div(
+    "Table created by: Kyle Cuilla @kc_analytics  •  Data: Pro-Football-Reference.com")
+  )
+)
+```
+
+Created by: @kc_analytics
+
+Source: [Pro-Football-Reference](https://www.pro-football-reference.com/years/2019/)
+
+# Additional CSS Used for Table
+
+This part is optional, but if you want to enhance the aesthetic of your `reactable` table, one thing you can do is include CSS styling. For example, the column headers in my table were designed to turn grey when you hover and click on them, and that can be seen in the "Column header hover formatting" piece below.  
+
+```{r, code_folding=TRUE}
+### Load font from Google Fonts
+tags$link(href = "https://fonts.googleapis.com/css?family=Karla:400,700|Fira+Mono&display=fallback", rel = "stylesheet")
+```
+
+```{css, code_folding=TRUE}
+/* Row and column borders */
+.cell {
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+}
+.border-left {
+  border-left: 1px solid #777;
+}
+.border-right {
+  border-right: 1px solid #777;
+}
+.Division-last .cell {
+  box-shadow: inset 0 -1px 0 #777;
+}
+/* Column header hover formatting */
+.header:hover,
+.header[aria-sort="ascending"],
+.header[aria-sort="descending"] {
+  background-color: #b3b3b3;
+  color: #fff;
+}
+.header:active,
+.header[aria-sort="ascending"],
+.header[aria-sort="descending"] {
+  background-color: #555;
+  color: #fff;
+}
+/* Column header formatting */
+.colheader {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  border-bottom: 2px solid #555;
+}
+.groupheader {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+}
+/* Number formatting */
+.number {
+  font-family: "Fira Mono", Consolas, Monaco, monospace;
+  font-size: 13px;
+  line-height: 30px;
+  white-space: pre;
+}
+/* Text formatting */
+.team-ratings {
+  font-family: Karla, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+/* Division column formatting */
+.division-name {
+  font-family: Karla, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 30px;
+}
+/* Team column formatting */
+.team {
+  display: flex;
+  align-items: baseline;
+}
+.logo {
+  margin-right: 10px;
+  height: 24px;
+}
+.team-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+.record {
+  margin-left: 4px;
+  color: #999;
+  font-size: 13px;
+}
+/* Rotate SoS square into a diamond */
+.rotate{
+  transform: rotate(45deg);
+}
+/* Round corners under Team Rating columns */
+.roundcorners {
+  border-radius: 10px;
+  color: #000;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  width: 46px;
+  height: 28px;
+}
+/* Formatting for title above table */
+.title {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  margin: 16px 0;
+}
+/* SoS legend symbols underneath chart */
+.black-diamond-legend1{
+  transform: rotate(45deg);
+  color: #000;
+  margin-left: 7px;
+}
+.black-diamond-legend2{
+  transform: rotate(45deg);
+  color: #000;
+}
+.green-circle-legend{
+  color: #008000;
+  margin-left: 7px;
+}
+.blue-square-legend{
+  color: #0000FF;
+  margin-left: 7px;
+}
+```

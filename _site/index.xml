@@ -7,7 +7,14 @@
     <description>KC Analytics
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 05 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Adding Crosstalk Interactivity</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</link>
+      <description>Linking an interactive plot and table together with the crosstalk package.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</guid>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>2020 RStudio Table Contest</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</link>
