@@ -86,9 +86,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>KC Analytics: Welcome to KC Analytics</title>
+<title>KC Analytics: Creating Interactive Maps in R</title>
 
-<meta property="description" itemprop="description" content="Welcome to our new blog, KC Analytics. We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="description" itemprop="description" content="This post shows you how to create interactive maps in R using the highcharter package."/>
 
 <link rel="canonical" href="https://kcanalytics.netlify.app/posts/welcome/"/>
 
@@ -97,29 +97,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="article:created" itemprop="dateCreated" content="2021-03-05"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="KC Analytics: Welcome to KC Analytics"/>
+<meta property="og:title" content="KC Analytics: Creating Interactive Maps in R"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Welcome to our new blog, KC Analytics. We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="og:description" content="This post shows you how to create interactive maps in R using the highcharter package."/>
 <meta property="og:url" content="https://kcanalytics.netlify.app/posts/welcome/"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="KC Analytics"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="KC Analytics: Welcome to KC Analytics"/>
-<meta property="twitter:description" content="Welcome to our new blog, KC Analytics. We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="twitter:title" content="KC Analytics: Creating Interactive Maps in R"/>
+<meta property="twitter:description" content="This post shows you how to create interactive maps in R using the highcharter package."/>
 <meta property="twitter:url" content="https://kcanalytics.netlify.app/posts/welcome/"/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Welcome to KC Analytics"]},{"type":"character","attributes":{},"value":["Welcome to our new blog, KC Analytics. We hope you enjoy \nreading what we have to say!"]},{"type":"character","attributes":{},"value":["03-05-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://kcanalytics.netlify.app/posts/welcome/"]},{"type":"character","attributes":{},"value":["https://kcanalytics.netlify.app/posts/welcome/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Creating Interactive Maps in R"]},{"type":"character","attributes":{},"value":["This post shows you how to create interactive maps in R using the highcharter package."]},{"type":"character","attributes":{},"value":["03-05-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://kcanalytics.netlify.app/posts/welcome/"]},{"type":"character","attributes":{},"value":["https://kcanalytics.netlify.app/posts/welcome/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["welcome_files/anchor-4.2.2/anchor.min.js","welcome_files/bowser-1.9.3/bowser.min.js","welcome_files/distill-2.2.21/template.v2.js","welcome_files/header-attrs-2.7/header-attrs.js","welcome_files/jquery-1.11.3/jquery.min.js","welcome_files/popper-2.6.0/popper.min.js","welcome_files/tippy-6.2.7/tippy-bundle.umd.min.js","welcome_files/tippy-6.2.7/tippy-light-border.css","welcome_files/tippy-6.2.7/tippy.css","welcome_files/tippy-6.2.7/tippy.umd.min.js","welcome_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highchart-binding-0.8.2/highchart.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/css/htmlwdgtgrid.css","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/css/motion.css","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/appear.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/reset.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/symbols-extra.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/text-symbols.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts-3d.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts-more.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/accessibility.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/annotations-advanced.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/annotations.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/arrow-symbols.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/boost-canvas.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/boost.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/broken-axis.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/bullet.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/coloraxis.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/current-date-indicator.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/cylinder.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/data.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/datagrouping.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/debugger.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dependency-wheel.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dotplot.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/drag-panes.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/draggable-points.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/drilldown.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dumbbell.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/export-data.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/exporting.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/full-screen.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/funnel.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/funnel3d.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/gantt.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/grid-axis.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/heatmap.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/histogram-bellcurve.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/item-series.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/lollipop.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/map.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/marker-clusters.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/networkgraph.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/no-data-to-display.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/offline-exporting.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/oldie-polyfills.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/oldie.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/organization.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/overlapping-datalabels.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/parallel-coordinates.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pareto.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pathfinder.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pattern-fill.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/price-indicator.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pyramid3d.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sankey.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/series-label.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/solid-gauge.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sonification.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/static-scale.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/stock-tools.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/stock.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/streamgraph.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sunburst.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/tilemap.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/timeline.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/treegrid.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/treemap.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/variable-pie.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/variwide.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/vector.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/venn.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/windbarb.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/wordcloud.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/xrange.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/draggable-legend.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/grouped-categories.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/highcharts-regression.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/motion.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/multicolor_series.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/pattern-fill-v2.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/tooltip-delay.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/htmlwidgets-1.5.1/htmlwidgets.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/jquery-3.5.0/jquery.min.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/proj4js-2.3.15/proj4.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/pymjs-1.3.2/pym.v1.js","Interactive-Maps-in-R_files/figure-html5/widgets/highchart_libs/pymjs-1.3.2/pym.v1.min.js","Interactive-Maps-in-R_files/figure-html5/widgets/widget_unnamed-chunk-11.html","Interactive-Maps-in-R_files/figure-html5/widgets/widget_unnamed-chunk-18.html","Interactive-Maps-in-R_files/figure-html5/widgets/widget_unnamed-chunk-7.html","welcome.html","welcome_files/anchor-4.2.2/anchor.min.js","welcome_files/bowser-1.9.3/bowser.min.js","welcome_files/distill-2.2.21/template.v2.js","welcome_files/figure-html5/widgets/highchart_libs/highchart-binding-0.8.2/highchart.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/css/htmlwdgtgrid.css","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/css/motion.css","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/appear.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/reset.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/symbols-extra.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/custom/text-symbols.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts-3d.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts-more.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/highcharts.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/accessibility.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/annotations-advanced.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/annotations.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/arrow-symbols.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/boost-canvas.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/boost.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/broken-axis.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/bullet.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/coloraxis.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/current-date-indicator.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/cylinder.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/data.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/datagrouping.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/debugger.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dependency-wheel.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dotplot.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/drag-panes.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/draggable-points.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/drilldown.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/dumbbell.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/export-data.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/exporting.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/full-screen.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/funnel.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/funnel3d.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/gantt.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/grid-axis.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/heatmap.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/histogram-bellcurve.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/item-series.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/lollipop.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/map.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/marker-clusters.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/networkgraph.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/no-data-to-display.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/offline-exporting.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/oldie-polyfills.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/oldie.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/organization.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/overlapping-datalabels.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/parallel-coordinates.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pareto.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pathfinder.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pattern-fill.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/price-indicator.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/pyramid3d.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sankey.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/series-label.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/solid-gauge.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sonification.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/static-scale.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/stock-tools.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/stock.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/streamgraph.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/sunburst.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/tilemap.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/timeline.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/treegrid.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/treemap.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/variable-pie.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/variwide.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/vector.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/venn.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/windbarb.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/wordcloud.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/modules/xrange.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/draggable-legend.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/grouped-categories.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/highcharts-regression.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/motion.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/multicolor_series.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/pattern-fill-v2.js","welcome_files/figure-html5/widgets/highchart_libs/highcharts-8.1.2/plugins/tooltip-delay.js","welcome_files/figure-html5/widgets/highchart_libs/htmlwidgets-1.5.1/htmlwidgets.js","welcome_files/figure-html5/widgets/highchart_libs/jquery-3.5.0/jquery.min.js","welcome_files/figure-html5/widgets/highchart_libs/proj4js-2.3.15/proj4.js","welcome_files/figure-html5/widgets/highchart_libs/pymjs-1.3.2/pym.v1.js","welcome_files/figure-html5/widgets/highchart_libs/pymjs-1.3.2/pym.v1.min.js","welcome_files/figure-html5/widgets/widget_unnamed-chunk-11.html","welcome_files/figure-html5/widgets/widget_unnamed-chunk-18.html","welcome_files/figure-html5/widgets/widget_unnamed-chunk-7.html","welcome_files/header-attrs-2.7/header-attrs.js","welcome_files/htmlwidgets-1.5.1/htmlwidgets.js","welcome_files/jquery-1.11.3/jquery.min.js","welcome_files/popper-2.6.0/popper.min.js","welcome_files/pymjs-1.3.2/pym.v1.js","welcome_files/pymjs-1.3.2/pym.v1.min.js","welcome_files/tippy-6.2.7/tippy-bundle.umd.min.js","welcome_files/tippy-6.2.7/tippy-light-border.css","welcome_files/tippy-6.2.7/tippy.css","welcome_files/tippy-6.2.7/tippy.umd.min.js","welcome_files/webcomponents-2.0.0/webcomponents.js","welcome_files/widgetframe-binding-0.3.1/widgetframe.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2044,6 +2044,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.7/header-attrs.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <script src="../../site_libs/pymjs-1.3.2/pym.v1.js"></script>
+  <script src="../../site_libs/widgetframe-binding-0.3.1/widgetframe.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2064,7 +2067,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Welcome to KC Analytics","description":"Welcome to our new blog, KC Analytics. We hope you enjoy \nreading what we have to say!","authors":[],"publishedDate":"2021-03-05T00:00:00.000-05:00"}
+{"title":"Creating Interactive Maps in R","description":"This post shows you how to create interactive maps in R using the highcharter package.","authors":[],"publishedDate":"2021-03-05T00:00:00.000-05:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2087,15 +2090,312 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Welcome to KC Analytics</h1>
+<h1>Creating Interactive Maps in R</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Welcome to our new blog, KC Analytics. We hope you enjoy reading what we have to say!</p></p>
+<p><p>This post shows you how to create interactive maps in R using the highcharter package.</p></p>
 </div>
 
 
 <div class="d-article">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="why-interactive-maps">Why Interactive Maps?</h2>
+<p>Static maps are an effective visual tool that communicate geographic data in an interpretive way that is generally lost if that data is only viewed in a spreadsheet.</p>
+<p>Adding interactivity to a map further improves data interpretability by allowing users to:</p>
+<ul>
+<li>Explore the data by zooming in on areas of interest</li>
+<li>Choose what data values to be displayed or excluded</li>
+<li>Hover over an area of interest and get additional info/the exact value that’s being displayed</li>
+</ul>
+<h2 id="interactive-choropleth-map">Interactive Choropleth Map</h2>
+<p>The first interactive map I will show you how to create is a population density map by county for the state of Texas made with the <code>highcharter</code> package.</p>
+<p><br></p>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>Before we get started, you will need to load <code>highcharter</code> and the rest of the following packages:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://jkunst.com/highcharter'>highcharter</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://r-datatable.com'>data.table</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>RColorBrewer</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="data-prep">Data Prep</h3>
+<p>The dataset we’ll be using is from the <a href="https://www.ers.usda.gov/data-products/atlas-of-rural-and-small-town-america/download-the-data/">USDA ERS</a>. The data is available in both xlsx and csv format. I downloaded the data in csv format and loaded the People.csv file which contains the population estimates:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Load USDA ERS dataset</span>
+<span class='va'>county_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/fread.html'>fread</a></span><span class='op'>(</span><span class='st'>"C:/Users/Kyle/Downloads/People.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'>==</span> <span class='st'>'TX'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The dataset contains FIPS codes for each county. In order to map this data, we will need to join it to the dataset containing the geographic information for each county from the <code>highcharter</code> package.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Load Texas county map</span>
+<span class='va'>tx_counties</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/get_data_from_map.html'>get_data_from_map</a></span><span class='op'>(</span><span class='fu'><a href='http://jkunst.com/highcharter/reference/download_map_data.html'>download_map_data</a></span><span class='op'>(</span><span class='st'>"countries/us/us-tx-all"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>tx_counties</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Rows: 254
+Columns: 7
+$ `hc-group`    &lt;chr&gt; &quot;admin2&quot;, &quot;admin2&quot;, &quot;admin2&quot;, &quot;admin2&quot;, &quot;ad...
+$ `hc-middle-x` &lt;dbl&gt; 0.50, 0.50, 0.50, 0.50, 0.50, 0.52, 0.36, 0...
+$ `hc-middle-y` &lt;dbl&gt; 0.50, 0.50, 0.50, 0.50, 0.77, 0.50, 0.36, 0...
+$ `hc-key`      &lt;chr&gt; &quot;us-tx-179&quot;, &quot;us-tx-393&quot;, &quot;us-tx-311&quot;, &quot;us-...
+$ `hc-a2`       &lt;chr&gt; &quot;GR&quot;, &quot;RO&quot;, &quot;MC&quot;, &quot;DU&quot;, &quot;LO&quot;, &quot;LE&quot;, &quot;HO&quot;, &quot;...
+$ fips          &lt;chr&gt; &quot;48179&quot;, &quot;48393&quot;, &quot;48311&quot;, &quot;48131&quot;, &quot;48297&quot;...
+$ name          &lt;chr&gt; &quot;Gray&quot;, &quot;Roberts&quot;, &quot;McMullen&quot;, &quot;Duval&quot;, &quot;Li...</code></pre>
+</div>
+<p>Before joining the datasets, we need to calculate the population density for 2018. We can do this by using <code>mutate</code> from the <code>dplyr</code> package to create a column called ‘density’ and divide the ‘TotalPopEst2018’ column by the ‘LandAreaSQMiles2010’ column as shown below:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate population density</span>
+<span class='va'>density_df</span> <span class='op'>&lt;-</span> <span class='va'>county_df</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>fips<span class='op'>=</span><span class='va'>FIPS</span>,<span class='va'>County</span>,<span class='va'>TotalPopEst2018</span>,<span class='va'>LandAreaSQMiles2010</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>density <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>TotalPopEst2018</span><span class='op'>/</span><span class='va'>LandAreaSQMiles2010</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>density_df</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>    fips   County TotalPopEst2018 LandAreaSQMiles2010 density
+1: 48000    Texas        28701845           261231.71     110
+2: 48001 Anderson           58057             1062.60      55
+3: 48003  Andrews           18128             1500.71      12
+4: 48005 Angelina           87092              797.78     109
+5: 48007  Aransas           23792              252.07      94
+6: 48009   Archer            8786              903.11      10</code></pre>
+</div>
+<h3 id="creating-the-map">Creating the Map</h3>
+<p>Using the <code>hcmap</code> function from <code>highcharter</code>, we can create a basic interactive map like this one:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Create interactive map of Texas counties</span>
+<span class='va'>density_map</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/hcmap.html'>hcmap</a></span><span class='op'>(</span>map <span class='op'>=</span> <span class='st'>"countries/us/us-tx-all"</span>, 
+      data <span class='op'>=</span> <span class='va'>density_df</span>, 
+      value <span class='op'>=</span> <span class='st'>"density"</span>, 
+      joinBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fips"</span><span class='op'>)</span><span class='op'>)</span>  <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_mapNavigation.html'>hc_mapNavigation</a></span><span class='op'>(</span>enabled <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-1758431a6d15fca1842a" style="width:100%;height:384px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1758431a6d15fca1842a">{"x":{"url":"Interactive-Maps-in-R_files/figure-html5//widgets/widget_unnamed-chunk-7.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br> <br></p>
+<h4 id="customizing-the-map">Customizing the Map</h4>
+<p>In the map above, the counties with the highest population densities clearly stand out. However, it is difficult to distinguish the differences between the counties with lower population densities.</p>
+<p>In order to correct this, we can assign color breaks to the data by utilizing the <code>hc_colorAxis</code> function and assigning a color palette from the <code>RColorBrewer</code> package:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Add color classes and legend to map</span>
+<span class='va'>density_map</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/hcmap.html'>hcmap</a></span><span class='op'>(</span>
+  map <span class='op'>=</span> <span class='st'>"countries/us/us-tx-all"</span>,
+  data <span class='op'>=</span> <span class='va'>density_df</span>,
+  value <span class='op'>=</span> <span class='st'>"density"</span>,
+  joinBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fips"</span><span class='op'>)</span>,
+  borderWidth <span class='op'>=</span> <span class='fl'>0.3</span>
+<span class='op'>)</span>  <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_mapNavigation.html'>hc_mapNavigation</a></span><span class='op'>(</span>enabled <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_legend.html'>hc_legend</a></span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"vertical"</span>,
+            align <span class='op'>=</span> <span class='st'>"right"</span>,
+            valueDecimals <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_colorAxis.html'>hc_colorAxis</a></span><span class='op'>(</span>dataClasses <span class='op'>=</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/color_classes.html'>color_classes</a></span><span class='op'>(</span>
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>25</span>, <span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>2000</span>, <span class='fl'>3000</span>, <span class='fl'>3500</span><span class='op'>)</span>,
+    colors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#FECE91"</span>,<span class='st'>"#FE9F6D"</span>,<span class='st'>"#F76F5C"</span>,<span class='st'>"#DE4968"</span>,<span class='st'>"#B63679"</span>,<span class='st'>"#8C2981"</span>,<span class='st'>"#641A80"</span>,<span class='st'>"#3B0F70"</span>,<span class='st'>"#150E37"</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>The next thing we will need to do is modify what is displayed when you hover (or click if you are viewing on a mobile device) on a particular county.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Add custom tooltip to map</span>
+<span class='va'>density_map</span> <span class='op'>&lt;-</span> <span class='va'>density_map</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_tooltip.html'>hc_tooltip</a></span><span class='op'>(</span>
+    headerFormat <span class='op'>=</span> <span class='st'>""</span>,
+    pointFormat <span class='op'>=</span> <span class='st'>"{point.name}: {point.value}"</span>,
+    valueDecimals <span class='op'>=</span> <span class='fl'>0</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>Now, the only thing left is to add a title and source to the map which we can do with the <code>hc_title</code> and <code>hc_credits</code> options:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Add title and credits to map</span>
+<span class='va'>density_map</span> <span class='op'>&lt;-</span> <span class='va'>density_map</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_title.html'>hc_title</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"Population Density by County, 2018"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_credits.html'>hc_credits</a></span><span class='op'>(</span>enabled <span class='op'>=</span> <span class='cn'>TRUE</span>,
+             text <span class='op'>=</span> <span class='st'>"Author: Kyle Cuilla, Data: USDA ERS"</span>,
+             href <span class='op'>=</span> <span class='st'>"https://www.ers.usda.gov/data-products/atlas-of-rural-and-small-town-america/download-the-data/"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<p>And here is our final result!</p>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-0212cef188f38fa60bd3" style="width:100%;height:384px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0212cef188f38fa60bd3">{"x":{"url":"Interactive-Maps-in-R_files/figure-html5//widgets/widget_unnamed-chunk-11.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br> <br></p>
+<h2 id="animated-choropleth-map">Animated Choropleth Map</h2>
+<p>So now we have our map that displays the population density by county in 2018.</p>
+<p>Let’s say that we want to see how the population density has changed over time. How would we go about doing this?</p>
+<p>Well, we could create nine separate maps (one for each year from 2010 to 2018), but this would take up a lot of space and because the maps would each be separate, and because each map would be separate, it may be difficult to detect subtle difference between each year.</p>
+<p>To solve these issues, we can create an animated map instead.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p><br></p>
+<h3 id="data-prep-1">Data Prep</h3>
+<p>The <code>county_df</code> dataset we’ve been using contains estimated populations for each year.</p>
+<p>We can calculate the population densities for each of these years by creating a function called ‘pop_density’ and applying it to each population estimate.</p>
+<p>We can then use the <code>gather</code> function from the <code>tidyr</code> package to put all of the population densities into a single column called ‘density’ and all of the years into a single column called ‘years’.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Calculate population density for each year in dataset</span>
+<span class='va'>pop_density</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>/</span> <span class='va'>county_df</span><span class='op'>$</span><span class='va'>LandAreaSQMiles2010</span>, <span class='fl'>0</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>density_df_by_year</span> <span class='op'>&lt;-</span> <span class='va'>county_df</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
+      <span class='va'>FIPS</span>,
+      <span class='va'>State</span>,
+      <span class='va'>County</span>,
+      <span class='st'>'2010'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2010</span>,
+      <span class='st'>'2011'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2011</span>,
+      <span class='st'>'2012'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2012</span>,
+      <span class='st'>'2013'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2013</span>,
+      <span class='st'>'2014'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2014</span>,
+      <span class='st'>'2015'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2015</span>,
+      <span class='st'>'2016'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2016</span>,
+      <span class='st'>'2017'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2017</span>,
+      <span class='st'>'2018'</span> <span class='op'>=</span> <span class='va'>TotalPopEst2018</span>
+    <span class='op'>)</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_at</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/vars.html'>vars</a></span><span class='op'>(</span><span class='fu'><a href='https://tidyselect.r-lib.org/reference/starts_with.html'>matches</a></span><span class='op'>(</span><span class='st'>"201"</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>pop_density</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>State</span> <span class='op'>==</span> <span class='st'>'TX'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>density</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>FIPS</span>, <span class='va'>State</span>, <span class='va'>County</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>fips <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/fifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nchar.html'>nchar</a></span><span class='op'>(</span><span class='va'>FIPS</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>5</span>, <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"0"</span>, <span class='va'>FIPS</span><span class='op'>)</span>, <span class='va'>FIPS</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>'000'</span>, <span class='va'>FIPS</span><span class='op'>)</span>,<span class='op'>!</span><span class='va'>State</span> <span class='op'>==</span> <span class='st'>'US'</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>density_df_by_year</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>   FIPS State    County year density  fips
+1 48001    TX  Anderson 2010      55 48001
+2 48003    TX   Andrews 2010      10 48003
+3 48005    TX  Angelina 2010     109 48005
+4 48007    TX   Aransas 2010      92 48007
+5 48009    TX    Archer 2010      10 48009
+6 48011    TX Armstrong 2010       2 48011</code></pre>
+</div>
+<p>The animated <code>highcarter</code> map needs the population densities in a single list called ‘sequence’ in order to work properly. We can create the list of densities by using the <code>list_parse</code> function:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Create list column containing population densities by year </span>
+<span class='va'>density_df_seq</span> <span class='op'>&lt;-</span> <span class='va'>density_df_by_year</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>fips</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/do.html'>do</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/list_parse.html'>list_parse</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>.</span>, value <span class='op'>=</span> <span class='va'>density</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>density_df_seq</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 6 x 2
+# Rowwise: 
+   fips sequence  
+  &lt;int&gt; &lt;list&gt;    
+1 48001 &lt;list [9]&gt;
+2 48003 &lt;list [9]&gt;
+3 48005 &lt;list [9]&gt;
+4 48007 &lt;list [9]&gt;
+5 48009 &lt;list [9]&gt;
+6 48011 &lt;list [9]&gt;</code></pre>
+</div>
+<p>You can see in the output we have a column containing the FIPS codes for each county and a list of length 9 which contains one population density value for each year from 2010 to 2018.</p>
+<p>Next, we need to join this dataset back to the original dataset so that we have the county names, years, and population densities all in one dataset:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Join with original dataset</span>
+<span class='va'>density_df_by_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>density_df_by_year</span>,<span class='va'>density_df_seq</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>density_df_by_year</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>   FIPS State    County year density  fips
+1 48001    TX  Anderson 2010      55 48001
+2 48003    TX   Andrews 2010      10 48003
+3 48005    TX  Angelina 2010     109 48005
+4 48007    TX   Aransas 2010      92 48007
+5 48009    TX    Archer 2010      10 48009
+6 48011    TX Armstrong 2010       2 48011
+                                     sequence
+1          55, 55, 55, 55, 54, 54, 54, 55, 55
+2          10, 10, 11, 11, 12, 12, 12, 12, 12
+3 109, 109, 110, 109, 110, 110, 110, 110, 109
+4        92, 92, 93, 95, 97, 98, 100, 101, 94
+5          10, 10, 10, 10, 10, 10, 10, 10, 10
+6                   2, 2, 2, 2, 2, 2, 2, 2, 2</code></pre>
+</div>
+<h3 id="creating-the-map-1">Creating the Map</h3>
+<p>To create the animated map, all we need to do is take the existing <code>density_map</code> that we created and update the dataset from <code>density_df</code> to <code>density_df_by_year</code></p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Create interactive map of Texas counties</span>
+<span class='va'>animated_map</span> <span class='op'>&lt;-</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/hcmap.html'>hcmap</a></span><span class='op'>(</span>
+  map <span class='op'>=</span> <span class='st'>"countries/us/us-tx-all"</span>,
+  data <span class='op'>=</span> <span class='va'>density_df_by_year</span>,
+  value <span class='op'>=</span> <span class='st'>"density"</span>,
+  joinBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fips"</span><span class='op'>)</span>,
+  borderWidth <span class='op'>=</span> <span class='fl'>0.3</span>
+<span class='op'>)</span>  <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_mapNavigation.html'>hc_mapNavigation</a></span><span class='op'>(</span>enabled <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_colorAxis.html'>hc_colorAxis</a></span><span class='op'>(</span>dataClasses <span class='op'>=</span> <span class='fu'><a href='http://jkunst.com/highcharter/reference/color_classes.html'>color_classes</a></span><span class='op'>(</span>
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>25</span>, <span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>1000</span>, <span class='fl'>2000</span>, <span class='fl'>3000</span>, <span class='fl'>3500</span><span class='op'>)</span>,
+    colors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#FECE91"</span>,<span class='st'>"#FE9F6D"</span>,<span class='st'>"#F76F5C"</span>,<span class='st'>"#DE4968"</span>,<span class='st'>"#B63679"</span>,<span class='st'>"#8C2981"</span>,<span class='st'>"#641A80"</span>,<span class='st'>"#3B0F70"</span>,<span class='st'>"#150E37"</span><span class='op'>)</span>
+  <span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_legend.html'>hc_legend</a></span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"vertical"</span>,
+            align <span class='op'>=</span> <span class='st'>"right"</span>,
+            valueDecimals <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_tooltip.html'>hc_tooltip</a></span><span class='op'>(</span>
+    headerFormat <span class='op'>=</span> <span class='st'>""</span>,
+    pointFormat <span class='op'>=</span> <span class='st'>"{point.name}: {point.value}"</span>,
+    valueDecimals <span class='op'>=</span> <span class='fl'>0</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_title.html'>hc_title</a></span><span class='op'>(</span>text <span class='op'>=</span> <span class='st'>"Population Density by County, 2010 to 2018"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_credits.html'>hc_credits</a></span><span class='op'>(</span>enabled <span class='op'>=</span> <span class='cn'>TRUE</span>,
+             text <span class='op'>=</span> <span class='st'>"Author: Kyle Cuilla, Data: USDA ERS"</span>,
+             href <span class='op'>=</span> <span class='st'>"https://www.ers.usda.gov/data-products/atlas-of-rural-and-small-town-america/download-the-data/"</span><span class='op'>)</span>  
+</code></pre>
+</div>
+</div>
+<p>And then add the <code>hc_motion</code> option to the map:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># Add animation to map</span>
+<span class='va'>animated_map</span> <span class='op'>&lt;-</span> <span class='va'>animated_map</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='http://jkunst.com/highcharter/reference/hc_motion.html'>hc_motion</a></span><span class='op'>(</span>
+    enabled <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    series <span class='op'>=</span> <span class='fl'>0</span>,
+    autoPlay <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    loop <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    labels <span class='op'>=</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/duplicated.html'>unique</a></span><span class='op'>(</span><span class='va'>density_df_by_year</span><span class='op'>$</span><span class='va'>year</span><span class='op'>)</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-35711876b461190a7c5a" style="width:100%;height:384px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-35711876b461190a7c5a">{"x":{"url":"Interactive-Maps-in-R_files/figure-html5//widgets/widget_unnamed-chunk-18.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br> <br> <br></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
