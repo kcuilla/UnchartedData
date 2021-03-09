@@ -14,6 +14,8 @@ My submission received an Honorable Mention [award](https://blog.rstudio.com/202
 
 See the table below as well as the [code](https://github.com/kcuilla/2020-RStudio-Table-Contest) for the table located on my GitHub.
 
+<i>Note: if you are viewing on a mobile device, click [here](https://rpubs.com/kcuilla/nfl_team_ratings) to see the full output of the table.</i>
+
 ```{r setup, warnings = FALSE, message = FALSE, include = FALSE}
 knitr::opts_chunk$set(warnings = FALSE, message = FALSE, echo = FALSE)
 library(rvest)
