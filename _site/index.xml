@@ -7,7 +7,15 @@
     <description>KC Analytics
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 15 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Re-creating a Chart from NPR with ggplot2</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</link>
+      <description>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</guid>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Adding Crosstalk Interactivity</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</link>
