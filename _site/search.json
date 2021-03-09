@@ -6,14 +6,14 @@
       "description": "Some additional details about the blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-08T16:48:38-05:00"
+      "last_modified": "2021-03-08T17:05:55-05:00"
     },
     {
       "path": "index.html",
       "title": "KC Analytics",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-08T16:48:42-05:00"
+      "last_modified": "2021-03-08T17:06:12-05:00"
     }
   ],
   "collections": ["posts/posts.json"]

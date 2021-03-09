@@ -9,10 +9,9 @@
     <generator>Distill</generator>
     <lastBuildDate>Fri, 05 Mar 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Welcome to KC Analytics</title>
+      <title>Creating Interactive Maps in R</title>
       <link>https://kcanalytics.netlify.app/posts/welcome</link>
-      <description>Welcome to our new blog, KC Analytics. We hope you enjoy 
-reading what we have to say!</description>
+      <description>This post shows you how to create interactive maps in R using the highcharter package.</description>
       <guid>https://kcanalytics.netlify.app/posts/welcome</guid>
       <pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate>
     </item>

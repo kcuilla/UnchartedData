@@ -8,7 +8,7 @@ output:
     self_contained: false
 ---
 
-In late 2020, RStudio announced they were hosting an inagural table [contest](https://blog.rstudio.com/2020/09/15/announcing-the-2020-rstudio-table-contest/). I decided to create a dynamic table that displayed the team ratings and stats from every NFL team from the 2019 season. The data is scraped from Pro Football Reference and the table was created with the `reactable` package with some CSS styling sprinkled in. 
+In late 2020, RStudio announced they were hosting an inaugural table [contest](https://blog.rstudio.com/2020/09/15/announcing-the-2020-rstudio-table-contest/). I decided to create a dynamic table that displayed the team ratings and stats from every NFL team from the 2019 season. The data is scraped from Pro Football Reference and the table was created with the `reactable` package with some CSS styling sprinkled in. 
 
 My submission received an Honorable Mention [award](https://blog.rstudio.com/2020/12/23/winners-of-the-2020-rstudio-table-contest/) from RStudio among 80+ entries.
 
