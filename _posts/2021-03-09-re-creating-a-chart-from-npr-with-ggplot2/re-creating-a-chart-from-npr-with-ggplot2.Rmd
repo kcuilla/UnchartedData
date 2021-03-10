@@ -6,7 +6,7 @@ date: 05-24-2020
 preview: img/source_payroll_plot.PNG
 output:
   distill::distill_article:
-    cold_folding: true
+    code_folding: true
 ---
 
 Earlier this month, I came across a striking chart from NPR that showed the historic in employment in April 2020 due to COVID-19: 

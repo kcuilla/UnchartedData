@@ -6,10 +6,10 @@ date: 09-13-2020
 preview: img/AFC North Division.png
 output:
   distill::distill_article:
-    cold_folding: true
+    code_folding: true
 ---
 
-<img width="700" height="700" src="img/AFC North Division.png">
+<img src="img/AFC North Division.png">
 
 # Process
 
@@ -112,17 +112,17 @@ NFL_table_clean <- AFC_standings_past18_years %>%
 
 # Visualization
 
-<img width="700" height="700" src="img/AFC North Division.png">
-<img width="700" height="700" src="img/NFC North Division.png">
+<img src="img/AFC North Division.png">
+<img src="img/NFC North Division.png">
 
-<img width="700" height="700" src="img/AFC East Division.png">
-<img width="700" height="700" src="img/NFC East Division.png">
+<img src="img/AFC East Division.png">
+<img src="img/NFC East Division.png">
 
-<img width="700" height="700" src="img/AFC South Division.png">
-<img width="700" height="700" src="img/NFC South Division.png">
+<img src="img/AFC South Division.png">
+<img src="img/NFC South Division.png">
 
-<img width="700" height="700" src="img/AFC West Division.png">
-<img width="700" height="700" src="img/NFC West Division.png">
+<img src="img/AFC West Division.png">
+<img src="img/NFC West Division.png">
 
 The visualizations above shows the distribution of SRS by team and division since 2002 and whether or not the team made the playoffs for each year.
 

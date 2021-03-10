@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Re-creating a Chart from NPR with ggplot2"]},{"type":"character","attributes":{},"value":["Step-by-step guide on how I re-created a chart from NPR with ggplot2.\n"]},{"type":"character","attributes":{},"value":["05-24-2020"]},{"type":"character","attributes":{},"value":["img/source_payroll_plot.PNG"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["cold_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Re-creating a Chart from NPR with ggplot2"]},{"type":"character","attributes":{},"value":["Step-by-step guide on how I re-created a chart from NPR with ggplot2.\n"]},{"type":"character","attributes":{},"value":["05-24-2020"]},{"type":"character","attributes":{},"value":["img/source_payroll_plot.PNG"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1482,25 +1482,40 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The Total Nonfarm Payroll data is available from the Federal Reserve Bank of St. Louis through it’s Federal Reserve Economic Data (FRED) database.</p>
 <p>Loading the data in R is easy thanks to the <code>fredr</code> package which allows you to fetch data from the FRED API.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sboysel/fredr">fredr</a></span><span class="op">)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>In order to connect to the FRED API, you need to first obtain a <a href="https://research.stlouisfed.org/docs/api/api_key.html">FRED API key</a>. Once you have a key, replace the “FRED_API_KEY” below with your key number and you will be granted access to the FRED database.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class="fu"><a href="https://rdrr.io/pkg/fredr/man/fredr_set_key.html">fredr_set_key</a></span><span class="op">(</span><span class="va">FRED_API_KEY</span><span class="op">)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>The Total Nonfarm Payroll series we want to load is called <a href="https://fred.stlouisfed.org/series/PAYEMS">PAYEMS</a>.</p>
 <p>In the code below, we just need to specify the series name and include <code>units = &quot;chg&quot;</code> in order to get the month-to-month change:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class="fu"><a href="https://rdrr.io/pkg/fredr/man/fredr.html">fredr</a></span><span class="op">(</span>series_id <span class="op">=</span> <span class="st">&quot;PAYEMS&quot;</span>, units <span class="op">=</span> <span class="st">&quot;chg&quot;</span><span class="op">)</span>
 </code></pre>
 </div>
+</details>
 <pre><code># A tibble: 986 x 3
    date       series_id value
    &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;

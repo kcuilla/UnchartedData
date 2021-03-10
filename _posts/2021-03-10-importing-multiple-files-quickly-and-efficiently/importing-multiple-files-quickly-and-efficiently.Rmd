@@ -1,0 +1,197 @@
+---
+title: "Importing Multiple Files Quickly and Efficiently"
+description: |
+  Save countless hours with just one line of code.
+date: 01-30-2021
+preview: https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif
+output:
+  distill::distill_article:
+    code_folding: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:/Users/Kyle/Documents/purrr_demo/")
+```
+
+# Need for Speed
+
+<center>
+![](https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif)
+</center>
+
+If you're a data professional like me, odds are that at some point in your career you've needed to combine multiple files together.
+
+For example, let's say that your boss asks you to analyze the trend of the sales data for your company for the past three months. The sales data are stored in separate .csv files for each month and are named using a "month_year" format.
+
+You know how to code in R, so rather than copying and pasting everything together in Excel, you run this simple script and save the data for the past three months into a single dataframe called "sales":
+
+```{r, eval=FALSE}
+file1 <- read.csv("october_2020.csv")
+file2 <- read.csv("november_2020.csv")
+file3 <- read.csv("december_2020.csv")
+
+files <- rbind(file1, file2, file3)
+```
+
+Then you analyze the data and send it over to your boss. Your boss thanks you but tells you that you now need to analyze the sales trend over the past 10 years and it needs to be done ASAP that's about to start. Suddenly, the method you used above doesn't seem so efficient anymore now that you have 120 files to combine. Not only is it going to take time for you to type out the names of each file, but there's also a decent chance that you make a typo, especially given that you're crunched for time.
+
+There has to be a faster and easier way of doing this, right?
+
+# Fast Functions
+
+If you follow me on [Twitter](https://twitter.com/kc_analytics), you may already know the answer to that question is yes!
+
+Here is what Jared Lander, an adjunct professor at Columbia University, said about my proposed solution in the "How it's going" image on the right:
+
+<center>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I have saved clients hundreds of hours with this one line. <a href="https://t.co/YNl0oCqZXn">https://t.co/YNl0oCqZXn</a></p>&mdash; Jared Lander (@jaredlander) <a href="https://twitter.com/jaredlander/status/1345460714425737220?ref_src=twsrc%5Etfw">January 2, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
+
+Here's the solution I proposed in the picture above on the right so it's easier to follow along:
+
+```{r, eval=FALSE}
+files <- 
+  list.files(pattern = "*.csv") %>%
+  map_df(~fread(.))
+```
+
+To explain how this works, the function `list.files()` simply generates a list of all of the .csv files (as specified by `pattern = "*.csv"`) that are located in your current working directory. 
+
+<i>
+Note: depending on where the files are stored on your computer, you may need to change your working directory to the folder that contains the files. Also, if there are no other file types in your folder, then you don't need the `pattern = "*.csv"` and just use `list.files()` instead.
+</i>
+
+The list of files are then piped into the `map_df()` function which comes from the purrr package:
+
+```{r, echo=TRUE}
+library(tidyverse)
+
+map_df
+```
+
+You can see that `map_df` essentially takes the list of files and uses `bind_rows()` to combine them into a single dataframe by passing it through a function (`.f`) that you provide. In this case, the function that we are using is `fread()` which comes from the data.table package. `fread()` is essentially the same as `read.csv()` but it is significantly faster. 
+
+<i>
+Note: if you want to use any of the arguments within `fread()` such as `stringsAsFactors`, `select`, `fill`, etc. then you need to include the `~` before calling fread and  your argument options. If you don't need to add any arguments then you can just simply use `map_df(fread)`.
+</i>
+
+# Importing and Combining 500 .csv Files in ~1 sec
+
+To demonstrate just how fast and easy it is to use `map_df()` to import and combine files, I created a folder containing 500 .csv files.
+
+The files, which were generated using [Exportify](https://watsonbox.github.io/exportify/), consist of different playlists found on Spotify. Below is an example of some of the playlists in the folder:
+
+```{r, echo=TRUE}
+head(list.files())
+```
+
+To confirm there are 500 files in the folder, we can run `length(list.files())` to count the total number of files:
+
+```{r, echo=TRUE}
+length(list.files())
+```
+
+Now that we confirmed that all 500 files are present, let's import and combine them all into one dataset that just consists of the artist, track, and album name of each song:
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+library(data.table)
+
+files <-
+  list.files() %>%
+  map_df(~fread(., select = c("Artist Name", "Track Name", "Album Name")))
+
+str(files)
+```
+
+The output above shows that there are a total of 32,751 rows in our combined dataset (and three columns which we selected). 
+
+So now the question is how long did it take to import and combine 500 .csv files containing over 32k rows in total?
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+library(tictoc)
+
+tic()
+files <-
+  list.files() %>%
+  map_df(~fread(., select = c("Artist Name", "Track Name", "Album Name")))
+toc()
+```
+
+The answer: just over one second!
+
+# Bonus: Including File Names
+
+Currently, our file contains the artist, track, and album name for each song as shown below:
+
+```{r, echo=TRUE}
+head(files)
+```
+
+If you would like to add a column that says what playlist each song came from, we can create a function that inserts the file name as a column called 'Playlist Name' using `mutate`:
+
+```{r, echo=TRUE}
+file_names <- function(x) {
+  fread(x, select = c("Artist Name", "Track Name", "Album Name")) %>% 
+    mutate("Playlist Name" = str_extract(x, '.*(?=\\.csv)'))
+}
+```
+
+<i>Note: I'm using `str_extract` above to remove the '.csv' from each of the playlist names since they are present in the file names.</i>
+
+And then all we need to do is call that function within `map_df()` and now we have our dataset with the names of the playlists included: 
+
+```{r, echo=TRUE}
+files_with_names <-
+  list.files() %>%
+  map_df(file_names)
+
+head(files_with_names)
+```
+
+# Other Fast Functions
+
+In addition to `map_df()` there are a couple other functions that you can use to import and combine files quickly and efficiently.
+
+The first one uses `rbindlist()` from the data.table package:
+
+```{r, echo=TRUE}
+tic()
+files <- 
+  rbindlist(lapply(list.files(), fread, select = c("Artist Name", "Track Name", "Album Name")))
+toc()
+```
+
+This is actually just a tick faster than `map_df()` and only requires one package (data.table) vs two (data.table and purrr) so it is a solid alternative.
+
+The other function you can use is `vroom()` from the vroom package. One minor difference between `vroom()` vs the other two methods is that the results are stored in a tibble vs a dataframe: 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(vroom)
+
+tic()
+files <- 
+  vroom(list.files(), col_select = c("Artist Name", "Track Name", "Album Name"))
+toc()
+```
+
+For this example, `vroom()` is a tiny bit slower than both `map_df()` and `rbindlist()` but is still another great alternative. 
+
+# Speed Test Summary
+
+Here is a summary of the three functions we've used and how each of them performed when importing and combining 500 .csv files using the microbenchmark package:
+
+```{r, echo=TRUE, message=FALSE}
+library(microbenchmark)
+
+speed_test <- microbenchmark::microbenchmark(
+  list.files() %>% map_df(~fread(., select = c("Artist Name", "Track Name", "Album Name"))),
+  rbindlist(lapply(list.files(), fread, select = c("Artist Name", "Track Name", "Album Name"))),
+  vroom(list.files(), col_select = c("Artist Name", "Track Name", "Album Name")),
+  times = 10,
+  unit = "s"
+)
+
+speed_test
+```
+
+As you can see, all three functions we used (`map_df()`, `rbindlist()`, and `vroom()`) are incredibly fast at importing and combining files in R. For our scenario of combining 500 .csv files containing >32k rows in total, `rbindlist()` was the fastest, followed closely by `map_df()` and `vroom()`. However, depending on the number and size of the files you're combining, the speeds for each method will vary and this may not always be the order in which they finish iterating. The bottom line is that it doesn't really matter which of the three methods above that you use to import and combine files because they are all incredibly fast. What matters is that if you're still using `read.csv()` and `rbind()` to import and combine your files, hopefully now you're aware there are much easier, faster, and infallible ways to accomplish this task.
