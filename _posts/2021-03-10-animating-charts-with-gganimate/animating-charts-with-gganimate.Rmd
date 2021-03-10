@@ -3,7 +3,7 @@ title: "Animating Charts with gganimate"
 description: |
   How to make your ggplot2 chart come alive.
 date: 02-06-2021
-preview: img/dino_tidytuesday
+preview: img/dino_tidytuesday.gif
 output:
   distill::distill_article:
     code_folding: true
