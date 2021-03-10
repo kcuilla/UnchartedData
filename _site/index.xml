@@ -7,15 +7,7 @@
     <description>KC Analytics
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>Re-creating a Chart from NPR with ggplot2</title>
-      <link>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</link>
-      <description>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</description>
-      <guid>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</guid>
-      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/img/source_payroll_plot.PNG" medium="image" type="image/png" width="752" height="526"/>
-    </item>
+    <lastBuildDate>Fri, 15 Jan 2021 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Adding Crosstalk Interactivity</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</link>
@@ -31,6 +23,22 @@
       <guid>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</guid>
       <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/img/preview.PNG" medium="image" type="image/png" width="928" height="678"/>
+    </item>
+    <item>
+      <title>Visualizing NFL Division Ratings</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings</link>
+      <description>Distribution of team ratings by NFL division since 2002.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings</guid>
+      <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings/img/AFC North Division.png" medium="image" type="image/png" width="2400" height="2400"/>
+    </item>
+    <item>
+      <title>Re-creating a Chart from NPR with ggplot2</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</link>
+      <description>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</guid>
+      <pubDate>Sun, 24 May 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/img/source_payroll_plot.PNG" medium="image" type="image/png" width="752" height="526"/>
     </item>
     <item>
       <title>Creating Interactive Maps in R</title>

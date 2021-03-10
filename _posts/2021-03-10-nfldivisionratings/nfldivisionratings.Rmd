@@ -1,0 +1,436 @@
+---
+title: "Visualizing NFL Division Ratings"
+description: |
+  Distribution of team ratings by NFL division since 2002.
+date: 09-13-2020
+preview: img/AFC North Division.png
+output:
+  distill::distill_article:
+    cold_folding: true
+---
+
+<img width="700" height="700" src="img/AFC North Division.png">
+
+# Process
+
+In my last post, [2019 NFL Team Ratings](https://kcuilla.netlify.app/post/2019-nfl-team-ratings/), I created an interactive visualization to display the NFL team ratings from [Pro Football Reference website](https://www.pro-football-reference.com/years/2019/) for the 2019 season.
+
+After spending time looking at the 2019 ratings, I was curious to see how each NFL team rated over the past ~20 years and how they compared to other teams within their division.
+
+In order to do this, I pulled the team ratings for every year since 2002 from Pro Football Reference and plotted the data using the highly versatile `ggplot2` package.
+
+The final plots for each division are located at the end of the article under the Visualization section.
+
+# Data
+
+The data I needed to gather was located on 18 different pages from Pro Football Reference's site (one page for each year from 2002 to 2019). [Here](https://www.pro-football-reference.com/years/2019/) is the link for the 2019 team ratings from Pro Football Reference. If you want to view the ratings for any of the prior years, you just need to change the year at the end of the link. In order to pull the data for all 18 years at once, I wrote a function to scrape each year and bind the data together to form one datatset.
+
+I then did some minor cleaning/tidying on the data so that it could be easily used for creating the data visualizations. 
+
+```{r data, eval = FALSE, code_folding=TRUE}
+library(rvest)
+library(janitor)
+library(tidyverse)
+
+### Pull data from pro-football-reference -----------------------
+### AFC tables
+get_AFC_tables <- function(year) {
+  cat("Getting", year, "AFC Standings\n")
+  url <- paste0("https://www.pro-football-reference.com/years/", year)
+  AFC <- url %>%
+    xml2::read_html() %>%
+    html_nodes(xpath = '//*[@id="AFC"]') %>%
+    html_table()
+  AFC <- AFC[[1]]
+  AFC <- AFC %>%
+    mutate(Year = year)
+}
+
+### NFC tables
+get_NFC_tables <- function(year) {
+  cat("Getting", year, "NFC Standings\n")
+  url <- paste0("https://www.pro-football-reference.com/years/", year)
+  NFC <- url %>%
+    xml2::read_html() %>%
+    html_nodes(xpath = '//*[@id="NFC"]') %>%
+    html_table()
+  NFC <- NFC[[1]]
+  NFC <- NFC %>%
+    mutate(Year = year)
+}
+
+AFC_standings_past18_years <- lapply(2002:2019, get_AFC_tables) %>% 
+  bind_rows()
+
+NFC_standings_past18_years <- lapply(2002:2019, get_NFC_tables) %>% 
+  bind_rows()
+
+### Clean dataset -----------------------
+NFL_table_clean <- AFC_standings_past18_years %>% 
+  rbind(NFC_standings_past18_years) %>% 
+  ### Create NFL divisions column
+  mutate(Division = ifelse(str_detect(Tm, "FC"), Tm, NA)) %>%
+  fill(Division, .direction = "down") %>%
+  ### Create NFL conferences column
+  mutate(Conference = ifelse(str_detect(Division, "NFC"), "NFC", "AFC")) %>%
+  ### Remove team division names from Tm column
+  filter(str_detect(Tm, "FC", negate = TRUE)) %>%
+  ### Add column to say if team made playoffs based off of pre-existing asterisks
+  mutate(Playoffs = ifelse(str_detect(Tm, "[*+]"), "Yes", "No")) %>%
+  ### Remove asterisks and plus signs next to team names
+  mutate(Tm = gsub("[*+]", "", Tm)) %>%
+  mutate(
+    Team = case_when(
+      Tm == "Oakland Raiders" ~ "Las Vegas Raiders",
+      Tm == "Washington Redskins" ~ "Washington Football Team",
+      Tm == "San Diego Chargers" ~ "Los Angeles Chargers",
+      Tm == "St. Louis Rams" ~ "Los Angeles Rams",
+      TRUE ~ Tm
+    )
+  ) %>%
+  ### Convert columns containing numbers from character to numeric
+  mutate_at(c("SRS", "OSRS", "DSRS"),
+            as.numeric) %>%
+  group_by(Division) %>% 
+  mutate(
+    div_median_SRS = median(SRS)
+  ) %>%
+  ungroup() %>% 
+  select(
+    Division,
+    Conference,
+    Team,
+    Playoffs,
+    OSRS,
+    DSRS,
+    SRS,
+    Year,
+    div_median_SRS
+  ) %>% 
+  arrange(SRS)
+```
+
+# Visualization
+
+<img width="700" height="700" src="img/AFC North Division.png">
+<img width="700" height="700" src="img/NFC North Division.png">
+
+<img width="700" height="700" src="img/AFC East Division.png">
+<img width="700" height="700" src="img/NFC East Division.png">
+
+<img width="700" height="700" src="img/AFC South Division.png">
+<img width="700" height="700" src="img/NFC South Division.png">
+
+<img width="700" height="700" src="img/AFC West Division.png">
+<img width="700" height="700" src="img/NFC West Division.png">
+
+The visualizations above shows the distribution of SRS by team and division since 2002 and whether or not the team made the playoffs for each year.
+
+There are a couple key takeaways that stand out:
+
+- The best division since 2002 in the AFC was the AFC North with a median SRS of +0.7, and the best division in the NFC was the NFC East which also had a median SRS of +0.7
+- The New England Patriots have absolutely dominated their division since 2002. Their <i>worst</i> season was still <b>better</b> than the median for their division. They also made the playoffs 89% of the time, the highest in the NFL
+- It's also interesting to see when team's made the playoffs or not in regards to their SRS rating. For example, the Buffalo Bills and Miami Dolphins did not make the playoffs in their highest rated seasons. Meanwhile, the Denver Broncos made the playoffs in a year in which their SRS rating was -5 (I checked this, and yes, this was the infamous season where Tim Tebow led them to the playoffs in 2011 when they finished the season 8-8)
+
+```{r plot, message = FALSE, warning = FALSE, eval = FALSE, code_folding=TRUE}
+library(extrafont)
+extrafont::loadfonts(device = "win")
+library(ggtext)
+library(colorspace)
+library(nflfastR)
+
+### Set theme for ggplot -----------------------
+theme_set(theme_minimal(base_size = 18, base_family = "Lucida Console"))
+theme_update(
+  panel.grid.major = element_line(color = "grey92", size = .4),
+  panel.grid.minor = element_blank(),
+  axis.title.x = element_text(
+    size = 15,
+    color = "grey30",
+    margin = margin(t = 7)
+  ),
+  axis.title.y = element_blank(),
+  axis.text = element_text(color = "grey60"),
+  axis.ticks =  element_line(color = "grey92", size = .4),
+  axis.ticks.length = unit(.6, "lines"),
+  legend.position = "top",
+  plot.title = element_text(
+    hjust = 0,
+    color = "black",
+    family = "Lucida Sans Unicode",
+    size = 21,
+    margin = margin(t = 10)
+  ),
+  plot.subtitle = element_text(
+    hjust = 0,
+    face = "bold",
+    color = "grey30",
+    family = "Lucida Sans Unicode",
+    size = 16,
+    margin = margin(0, 0, 10, 0)
+  ),
+  plot.title.position = "plot",
+  plot.caption = element_text(
+    color = "grey50",
+    size = 12,
+    hjust = 1,
+    family = "Lucida Sans Unicode",
+    lineheight = 1.05,
+    margin = margin(20, 0, 0, 0)
+  ),
+  plot.caption.position = "plot",
+  plot.margin = margin(rep(20, 4))
+)
+
+### Create chart for each division -----------------------
+division <- unique(NFL_table_clean$Division)
+
+for (i in division) {
+data <- NFL_table_clean %>% 
+  filter(Division == i)
+
+data <- data %>% 
+  group_by(Team) %>% 
+  mutate(
+    median = median(SRS),
+    q25 = quantile(SRS, probs = .25),
+    q75 = quantile(SRS, probs = .75),
+    n = n()
+  ) %>% 
+  ungroup() %>% 
+  mutate(Team_num = as.numeric(fct_rev(Team))) %>% 
+  arrange(Team)
+
+teams_colors_logos <- teams_colors_logos %>% 
+  filter(team_abbr != "LA")
+
+team_colors <- data %>%
+  distinct(Team) %>% 
+  inner_join(teams_colors_logos, by=c("Team"="team_name")) %>% 
+  arrange(Team)
+
+pal <- team_colors$team_color
+
+abbrv <- team_colors$team_abbr
+
+ggplot(data, aes(SRS, Team_num - .2)) +
+  geom_linerange(
+    data = data %>%
+      group_by(Team, Team_num) %>%
+      summarize(m = unique(median)) %>% 
+      ungroup(),
+    aes(
+      xmin = -Inf,
+      xmax = m,
+      y = Team_num,
+      color = Team
+    ),
+    inherit.aes = F,
+    linetype = "dotted",
+    size = .5
+  ) +
+  geom_boxplot(
+    aes(
+      y = Team_num - .15,
+      color = Team,
+      color = after_scale(darken(color, .1, space = "HLS"))
+    ),
+    width = 0,
+    size = .5,
+    outlier.shape = 8
+  ) +
+  geom_rect(
+    aes(
+      xmin = q25,
+      xmax = median,
+      ymin = Team_num - .07,
+      ymax = Team_num - .22
+    ),
+    fill = "grey95",
+    color = "grey80"
+  ) +
+  geom_rect(
+    aes(
+      xmin = q75,
+      xmax = median,
+      ymin = Team_num - .07,
+      ymax = Team_num - .22
+    ),
+    fill = "grey85",
+    color = "grey80"
+  ) +
+  geom_point(
+    aes(y = Team_num - .15),
+    color = ifelse(data$Playoffs == "Yes", "darkgreen", "red"),
+    shape = 20,
+    size = 5,
+    alpha = .4
+  ) +
+  ggdist::stat_halfeye(
+    aes(
+      y = Team_num,
+      color = Team,
+      fill = after_scale(lighten(color, .5))
+    ),
+    alpha = .7,
+    shape = 18,
+    point_size = 3,
+    interval_size = 1.8,
+    adjust = .5,
+    .width = c(0, 1)
+  ) +
+  geom_text(
+    data = data %>%
+      group_by(Team, Team_num) %>%
+      summarize(m = unique(median)) %>% 
+      ungroup(),
+    aes(
+      x = m,
+      y = Team_num + .1,
+      label = sprintf("%+.1f", m)
+    ),
+    inherit.aes = F,
+    color = "white",
+    fontface = "bold",
+    family = "Lucida Console",
+    size = 4.5
+  ) +
+  geom_text(
+    data = data %>%
+      filter(Team_num == 4) %>%
+      summarize(max = max(SRS)) %>% 
+      ungroup(),
+    aes(x = max + 1,
+        y = 4 + .05,
+        label = "Playoff Pct."),
+    inherit.aes = F,
+    family = "Lucida Sans Unicode",
+    color = "grey20",
+    fontface = "bold",
+    size = 3.5,
+    hjust = 0
+  ) +
+  geom_text(
+    data = data %>%
+      mutate(playoff_num = ifelse(Playoffs == "Yes", 1, 0)) %>%
+      group_by(Team, Team_num) %>%
+      summarize(max = max(SRS),
+                playoff_pct = round(100 * sum(playoff_num) / 18, 0)) %>% 
+      ungroup(),
+    aes(
+      x = max + 1,
+      y = Team_num - .15,
+      label = glue::glue("{playoff_pct}%"),
+      color = Team
+    ),
+    inherit.aes = F,
+    family = "Lucida Console",
+    fontface = "bold",
+    size = 4,
+    hjust = 0
+  ) +
+  scale_x_continuous(
+    labels = function(x)
+      sprintf("%+.0f", x),
+    limits = c(-18, 21.5),
+    breaks = c(-20, -15, -10, -5, 0, 5, 10, 15, 20)
+  ) +
+  scale_y_continuous(
+    limits = c(.55, NA),
+    breaks = 1:4,
+    labels = rev(team_colors$team_abbr),
+    expand = c(0, 0.05)
+  ) +
+  scale_color_manual(values = pal,
+                     guide = F) +
+  scale_fill_manual(values = pal,
+                    guide = F) +
+  labs(
+    x = "SRS",
+    title = i,
+    subtitle = "Distribution of SRS since 2002",
+    caption = 'Note: Simple Rating System (SRS) is a measurement of team quality relative to average (0.0)\nVisualization: Kyle Cuilla  •  Data: Pro-Football-Reference'
+  ) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    axis.text.y = element_text(
+      family = "Lucida Console",
+      color = rev(pal),
+      size = 20,
+      lineheight = .9
+    ),
+    axis.ticks.length = unit(0, "lines")
+  ) +
+  geom_vline(
+    xintercept = data$div_median_SRS,
+    linetype = "dashed",
+    size = 0.5,
+    alpha = 0.5
+  ) +
+  geom_text(
+    data = data %>%
+      filter(Team_num == 4),
+    aes(
+      x = div_median_SRS + 0.4,
+      y = 4 + 1,
+      label = paste0("Division median: ", sprintf("%+.1f", div_median_SRS))
+    ),
+    inherit.aes = F,
+    family = "Lucida Sans Unicode",
+    color = "grey20",
+    fontface = "bold.italic",
+    size = 3.8,
+    hjust = 0
+  ) +
+  annotate(
+    "text",
+    x = 17.5,
+    y = 5,
+    label = "Playoffs",
+    family = "Lucida Sans Unicode",
+    color = "grey20",
+    fontface = "bold",
+    size = 4,
+    lineheight = .9
+  )  +
+  geom_point(
+    x = 16.5,
+    y = 4.7,
+    color = "darkgreen",
+    shape = 20,
+    size = 5,
+    alpha = .5
+  ) +
+  annotate(
+    "text",
+    x = 16.5,
+    y = 4.85,
+    label = "Yes",
+    family = "Lucida Sans Unicode",
+    color = "grey20",
+    size = 3.2,
+    lineheight = .9
+  ) +
+  geom_point(
+    x = 18,
+    y = 4.7,
+    color = "red",
+    shape = 20,
+    size = 5,
+    alpha = .5
+  ) +
+  annotate(
+    "text",
+    x = 18,
+    y = 4.85,
+    label = "No",
+    family = "Lucida Sans Unicode",
+    color = "grey20",
+    size = 3.2,
+    lineheight = .9
+  ) 
+
+ggsave(file = paste0(i, " Division.png"), height = 4, width = 4, device = "png", type = "cairo")
+}
+```
+
