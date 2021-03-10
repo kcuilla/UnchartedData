@@ -7,7 +7,14 @@
     <description>KC Analytics
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 30 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 06 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Animating Charts with gganimate</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate</link>
+      <description>How to make your ggplot2 chart come alive.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate</guid>
+      <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Importing Multiple Files Quickly and Efficiently</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-importing-multiple-files-quickly-and-efficiently</link>
