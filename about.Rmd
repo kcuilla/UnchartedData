@@ -16,9 +16,9 @@ output:
 
 Welcome to my site!
 
-This site is primarily centered around R. In fact, it was created in R using the {distill} package. I've been programming in R since 2015 when I was first introduced to it while pursuing a Master's degree in Data Analytics from Penn State. Since then, I have worked in various analytics roles and, currently, I'm a Lead Quantitative Analyst within the fintech industry.
+This site is primarily centered around R. In fact, it was created in R using the {distill} package. I've been programming in R since 2015 when I was first introduced to it while pursuing a Master's degree in Data Analytics from Penn State. Since then, I have worked in various analytics roles, and currently I'm a Lead Quantitative Analyst within the fintech industry.
 
-I'm interested in sports analytics, renewable energy and the environment, and all things data science.
+My interests include sports analytics, renewable energy and the environment, and all things data science.
 
 I'm also passionate about data visualization and making processes more efficient. Those passions led me to creating [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/index.html), an R package designed to simplify and enhance the styling and customization of interactive data tables made with {reactable}.
 
