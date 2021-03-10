@@ -3,9 +3,10 @@ title: "2020 RStudio Table Contest"
 description: |
   My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.
 date: 01-05-2021
+preview: img/preview.PNG
 output:
   distill::distill_article:
-    self_contained: false
+    cold_folding: true
 ---
 
 In late 2020, RStudio announced they were hosting an inaugural table [contest](https://blog.rstudio.com/2020/09/15/announcing-the-2020-rstudio-table-contest/). I decided to create a dynamic table that displayed the team ratings and stats from every NFL team from the 2019 season. The data is scraped from Pro Football Reference and the table was created with the `reactable` package with some CSS styling sprinkled in. 

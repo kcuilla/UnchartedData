@@ -14,7 +14,7 @@
       <description>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</description>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</guid>
       <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/img/source_payroll_plot.PNG" medium="image" type="image/png" width="752" height="526"/>
     </item>
     <item>
       <title>Adding Crosstalk Interactivity</title>
@@ -22,6 +22,7 @@
       <description>Linking an interactive plot and table together with the crosstalk package.</description>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</guid>
       <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity/img/crosstalk_gif.gif" medium="image" type="image/gif"/>
     </item>
     <item>
       <title>2020 RStudio Table Contest</title>
@@ -29,6 +30,7 @@
       <description>My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.</description>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</guid>
       <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/img/preview.PNG" medium="image" type="image/png" width="928" height="678"/>
     </item>
     <item>
       <title>Creating Interactive Maps in R</title>
@@ -36,6 +38,7 @@
       <description>This post shows you how to create interactive maps in R using the highcharter package.</description>
       <guid>https://kcanalytics.netlify.app/posts/welcome</guid>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/welcome/img/map_preview.PNG" medium="image" type="image/png" width="692" height="494"/>
     </item>
   </channel>
 </rss>

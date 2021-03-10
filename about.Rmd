@@ -1,9 +1,27 @@
 ---
-title: "About this blog"
-description: |
-  Some additional details about the blog
+title: "Kyle Cuilla"
+image: "img/avatar.jpg"
+links:
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/kylecuilla/"
+  - label: Twitter
+    url: "https://twitter.com/kc_analytics"
+  - label: GitHub
+    url: "https://github.com/kcuilla"
+  - label: Email
+    url: "mailto:kyle.cuilla@gmail.com"
+output:
+  postcards::jolla
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+Welcome to my site!
+
+This site is primarily centered around R. In fact, it was created in R using the {distill} package. I've been programming in R since 2015 when I was first introduced to it while pursuing a Master's degree in Data Analytics from Penn State. Since then, I have worked in various analytics roles and, currently, I'm a Lead Quantitative Analyst within the fintech industry.
+
+I'm interested in sports analytics, renewable energy and the environment, and all things data science.
+
+I'm also passionate about data visualization and making processes more efficient. Those passions led me to creating [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/index.html), an R package designed to simplify and enhance the styling and customization of interactive data tables made with {reactable}.
+
+Thank you for visiting my site, hope you enjoy!
+
+

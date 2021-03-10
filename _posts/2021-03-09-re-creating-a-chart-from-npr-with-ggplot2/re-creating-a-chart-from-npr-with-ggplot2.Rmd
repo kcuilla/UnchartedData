@@ -3,6 +3,7 @@ title: "Re-creating a Chart from NPR with ggplot2"
 description: |
   Step-by-step guide on how I re-created a chart from NPR with ggplot2.
 date: 05-24-2021
+preview: img/source_payroll_plot.PNG
 output:
   distill::distill_article:
     cold_folding: true
