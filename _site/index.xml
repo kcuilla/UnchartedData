@@ -7,7 +7,15 @@
     <description>KC Analytics
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 06 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Introducing the {reactablefmtr} Package</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</link>
+      <description>Linking an interactive plot and table together with the crosstalk package.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</guid>
+      <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/img/reactablefmtr_hex_logo.png" medium="image" type="image/png" width="432" height="500"/>
+    </item>
     <item>
       <title>Animating Charts with gganimate</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate</link>
