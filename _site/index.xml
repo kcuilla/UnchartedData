@@ -49,6 +49,14 @@
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/img/preview.PNG" medium="image" type="image/png" width="928" height="678"/>
     </item>
     <item>
+      <title>The Analytics Say 'Go for It!'</title>
+      <link>https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it</link>
+      <description>The rate at which NFL teams are going for it on 4th &amp; short are at an all-time high.</description>
+      <guid>https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it</guid>
+      <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it/img/go_for_it_table.png" medium="image" type="image/png" width="859" height="668"/>
+    </item>
+    <item>
       <title>NCAA Tourney Visualization</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-ncaa-tourney-visualization</link>
       <description>How I created the NCAA Tourney Visualization I made for #TidyTuesday.</description>

@@ -1,0 +1,276 @@
+---
+title: "The Analytics Say 'Go for It!'"
+description: |
+  The rate at which NFL teams are going for it on 4th & short are at an all-time high.
+date: 01-03-2021
+preview: img/go_for_it_table.png
+output:
+  distill::distill_article:
+    code_folding: true
+---
+
+Analytics are changing the way NFL head coaches make decisions. Teams have been hiring more and more analytics personnel every year over the past few years and leveraging analytics data from third-party companies such as Pro Football Focus. One area that we've seen the largest influence from analytics is whether or not teams go for it on 4th down.
+
+To see this trend, I took a look at the 4th down go-for-it rates since 2010 {nflfastR} package. Excluding plays that were QB kneels, nullified due to penalties, and within a 20-80% estimated win probability, teams went for it on 4th & short (4th & 2 or less) about 26% of the time from 2010-2017. Over the past three years, that number has nearly doubled to 44%. And just in this past year, teams were going for it more often than not (nearly 53%)!
+
+Below is the code for the analysis and visualization made with {reactable}.
+
+# Data
+
+```{r}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+The first step in the analysis is to load the data from {nflfastR}. If you've never used {nflfastR} before, they have a great [beginner's guide](https://www.nflfastr.com/articles/beginners_guide.html). This is actually where I got the code for the first part to load data for multiple seasons below:
+
+```{r}
+library(nflfastR)
+library(tidyverse)
+
+seasons <- 2010:2020
+ fourth_down_plays <- purrr::map_df(seasons, function(x) {
+   readRDS(
+     url(
+       glue::glue("https://raw.githubusercontent.com/guga31bb/nflfastR-data/master/data/play_by_play_{x}.rds")
+     )
+   )
+ }) %>%
+   ### filter for 4th down plays only that were not QB kneels
+   filter(
+     down == 4,
+     qb_kneel == 0,
+     !is.na(posteam),
+     !is.na(yardline_100),
+     !is.na(score_differential)
+   )
+```
+
+Next step is to calculate go-for-it rates for every team for each season and put in a data table that can be later made into a {reactable} table.
+
+The {nflfastR} package has an additional table called `teams_colors_logos` that contains colors for each team which I end up using for the sparklines in my table. 
+
+```{r}
+go_for_it <- fourth_down_plays %>%
+  mutate(
+    ### bucket 4th down plays by yards to go
+    yards_to_go = case_when(
+      ydstogo <= 2 ~ "2 or less",
+      ydstogo >= 3 & ydstogo <= 5 ~ "3 to 5",
+      ydstogo >= 6 ~ "6 or more",
+      TRUE ~ "NA"
+    )
+  ) %>%
+  mutate(
+    play_type = case_when(
+      play_type == "field_goal" | play_type == "punt" ~ "Punt/FG",
+      play_type == "run" | play_type == "pass" ~ "Run/Pass",
+      play_type == "no_play" ~ "Penalty",
+      TRUE ~ "NA"
+    )
+  ) %>%
+  ### exclude penalties and games that were still competitive
+  filter(yards_to_go == "2 or less" &
+           play_type != "Penalty" & 
+           wp > .20 & 
+           wp < .80) %>%
+  dplyr::group_by(season, posteam, play_type) %>%
+  summarize(n = n()) %>% 
+  mutate(`2010-2020` = round(100 * (n / sum(n)), 1)) %>%
+  select(-c(n)) %>% 
+  pivot_wider(names_from = "season", values_from = "2010-2020") %>%
+  filter(play_type == "Run/Pass") %>%
+  ungroup() %>%
+  mutate_if(is.numeric, list(~replace_na(., 0))) %>% 
+  pivot_longer(cols = starts_with("20"),
+               names_to = "season",
+               values_to = "2010-2020") %>% 
+  arrange(posteam, season)
+trend <- go_for_it %>%
+  ungroup() %>%
+  select(team = posteam, `2010-2020`) %>%
+  group_by(team) %>%
+  mutate(`2010-2020` = list(`2010-2020`)) %>%
+  distinct(team, `2010-2020`) %>%
+  ungroup()
+go_for_it_by_year <- go_for_it %>%
+  select(season, team = posteam, `2010-2020`) %>%
+  pivot_wider(names_from = "season", values_from = "2010-2020") %>%
+  mutate_if(is.numeric, list(~replace_na(., 0))) %>% 
+  ungroup() %>%
+  inner_join(trend, by = c("team" = "team")) %>% 
+  ### add team colors
+  left_join(teams_colors_logos, by = c('team' = 'team_abbr')) %>% 
+  select(-c(team_name,team_id,team_nick,team_color2,team_color3,team_color4,team_logo_wikipedia,team_logo_espn))
+```
+
+# Table
+
+To visualize the 4th down go-for-it rates, I decided to make an interactive table with {reactable}. The table is sorted by the teams that went for it the most in 2020. As you can see, the Green Bay Packers went for it on 4th and short in game-neutral situations more than any other NFL team at ~82%. This was the second-highest go-for-it rate recorded for a season over the past decade. The highest rate was the Baltimore Ravens who went for it ~90% of the time in 2019. Surprisingly, the Ravens, who are [regarded](https://www.espn.com/nfl/story/_/id/29939438/2020-nfl-analytics-survey-which-teams-most-least-analytically-inclined) as one of the most analytical teams in the NFL, saw their go-for-it rates fall off in 2020 down to ~50%. Will we continue to see an upwards trend in go-for-it rates across the NFL over the next few seasons, or will teams start to make more conservative decisions like the Ravens did in 2020? Only time will tell...   
+
+```{r}
+library(htmltools)
+library(reactable)
+library(sparkline)
+
+make_color_pal <- function(colors, bias = 1) {
+  get_color <- colorRamp(colors, bias = bias)
+  function(x)
+    rgb(get_color(x), maxColorValue = 255)
+}
+
+orange_pal <-
+  make_color_pal(c(
+    "#fef4eb",
+    "#facba6",
+    "#f8b58b",
+    "#f59e72",
+    "#f2855d",
+    "#ef6a4c"
+  ),
+  bias = 0.7)
+
+pct_col <- colDef(
+  maxWidth = 60,
+  class = "number",
+  footer = function(value)
+    paste0(sprintf("%.1f", mean(value)),"%"),
+  cell = function(value)
+    paste0(format(
+      value, digits = 1, nsmall = 1
+    ), "%"),
+  style = function(y) {
+    normalized <-
+      ((y - 0) / (100 - 0))
+    color <- orange_pal(normalized)
+    list(background = color)
+  }
+)
+
+table <- reactable(
+  go_for_it_by_year,
+  pagination = FALSE,
+  showSortIcon = FALSE,
+  compact = TRUE,
+  defaultSorted = "2020",
+  defaultSortOrder = "desc",
+  columns = list(
+    team = colDef(
+      maxWidth = 60,
+      align = "center",
+      footer = "Avg",
+      cell = function(value, index) {
+        ### Team logos from images folder
+        img_src <- knitr::image_uri(sprintf("images/%s.png", value))
+        image <- img(class = "logo",
+                     src = img_src,
+                     alt = value)
+        div(class = "team", image)
+      }
+    ),
+    team_color = colDef(show = FALSE),
+    `2010` = pct_col,
+    `2011` = pct_col,
+    `2012` = pct_col,
+    `2013` = pct_col,
+    `2014` = pct_col,
+    `2015` = pct_col,
+    `2016` = pct_col,
+    `2017` = pct_col,
+    `2018` = pct_col,
+    `2019` = pct_col,
+    `2020` = pct_col,
+    `2010-2020` = colDef(
+      maxWidth = 130,
+      align = "right",
+      class = "border-left",
+      cell = function(value, index) {
+        sparkline(
+          go_for_it_by_year$`2010-2020`[[index]],
+          type = "line",
+          width = 120,
+          height = 40,
+          lineColor = go_for_it_by_year$team_color[[index]],
+          lineWidth = 2,
+          fillColor = FALSE,
+          spotRadius = 2,
+          spotColor = NULL,
+          minSpotColor = NULL,
+          maxSpotColor = NULL
+        )
+      }
+    )
+  ),
+  defaultColDef = colDef(
+    headerClass = "header colheader",
+    footerStyle = list(fontWeight = "bold", fontSize = "14px")
+  )
+)
+### Add title and subtitle to top of page above table
+div(
+  class = "analytics",
+  div(class = "title",
+      "The rate at which NFL teams go for it on 4th & 2-or-less is at an all-time high largely due to the increased use of analytics in decision making."),
+  table,
+  ### Add  source below the table
+  tags$span(style = "color:#999",
+            div(
+              "Note: Percentages shown are how often a team went for it (did not kick a field goal or punt the ball) when it was 4th & 2-or-less and in game-neutral situations (win probability between 20% and 80%). Plays that were nullified due to penalties are not included."
+            ),
+            div(
+              "TABLE: KYLE CUILLA @KC_ANALYTICS  •  DATA: NFLFASTR"
+            ))
+)
+```
+
+```{r}
+### Load font from Google Fonts
+tags$link(href = "https://fonts.googleapis.com/css?family=Karla:400,700|Fira+Mono&display=fallback", rel = "stylesheet")
+```
+
+```{css}
+/* column border */
+.border-left {
+  border-left: 2px solid #666;
+}
+/* Column hover formatting */
+.header:hover,
+.header[aria-sort="ascending"],
+.header[aria-sort="descending"] {
+  background-color: #dadada;
+}
+.header:active,
+.header[aria-sort="ascending"],
+.header[aria-sort="descending"] {
+  background-color: #333;
+  color: #fff;
+}
+/* Column header formatting */
+.colheader {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  border-bottom: 2px solid #555;
+  text-transform: uppercase;
+}
+/* Number formatting */
+.number {
+  font-family: "Fira Mono", Consolas, Monaco, monospace;
+  font-size: 13px;
+  line-height: 34px;
+  white-space: pre;
+}
+/* Text formatting */
+.analytics {
+  font-family: Karla, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+.logo {
+  margin-right: 1px;
+  height: 36px;
+}
+/* Formatting for title above table */
+.title {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  margin: 16px 0;
+}
+```
