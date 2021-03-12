@@ -12,7 +12,7 @@ meta() %>%
     title = "KC Analytics",
     description = "Personal Site/Data Analytics Blog",
     url = "https://kcanalytics.netlify.app/",
-    image = "https://raw.githubusercontent.com/kcuilla/kc_analytics/tree/main/img/site_img.png",
+    image = "https://raw.githubusercontent.com/kcuilla/kc_analytics/6da9561d8a2e3a17fbf18beb70f3d2d5f8eacb70/img/site_img.PNG",
     image_alt = "Coded in R",
     og_type = "website",
     og_author = "Kyle Cuilla",
