@@ -4,7 +4,6 @@ description: |
   An R package created to make the styling and customization of {reactable} tables easier.
 categories:
   - data visualization
-  - R package
   - tutorial
   - reactable
   - reactablefmtr

@@ -13,7 +13,6 @@
       <link>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</link>
       <description>An R package created to make the styling and customization of {reactable} tables easier.</description>
       <category>data visualization</category>
-      <category>R package</category>
       <category>tutorial</category>
       <category>reactable</category>
       <category>reactablefmtr</category>
