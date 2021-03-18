@@ -2,6 +2,12 @@
 title: "Re-creating a Chart from NPR with ggplot2"
 description: |
   Step-by-step guide on how I re-created a chart from NPR with ggplot2.
+categories:
+  - data visualization
+  - data wrangling
+  - tutorial
+  - fredr
+  - ggplot2
 date: 05-24-2020
 preview: img/source_payroll_plot.PNG
 output:

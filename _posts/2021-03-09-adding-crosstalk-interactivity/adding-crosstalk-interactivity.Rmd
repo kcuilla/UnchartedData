@@ -2,6 +2,11 @@
 title: "Adding Crosstalk Interactivity"
 description: |
   Linking an interactive plot and table together with the crosstalk package.
+categories:
+  - data visualization
+  - tutorial
+  - reactable
+  - crosstalk
 date: 01-15-2021
 preview: img/crosstalk_gif.gif
 output:

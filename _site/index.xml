@@ -11,7 +11,12 @@
     <item>
       <title>Introducing the {reactablefmtr} Package</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</link>
-      <description>Linking an interactive plot and table together with the crosstalk package.</description>
+      <description>An R package created to make the styling and customization of {reactable} tables easier.</description>
+      <category>data visualization</category>
+      <category>R package</category>
+      <category>tutorial</category>
+      <category>reactable</category>
+      <category>reactablefmtr</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</guid>
       <pubDate>Fri, 19 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/img/reactablefmtr_hex_logo.png" medium="image" type="image/png" width="432" height="500"/>
@@ -20,6 +25,11 @@
       <title>Animating Charts with gganimate</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate</link>
       <description>How to make your ggplot2 chart come alive.</description>
+      <category>data visualization</category>
+      <category>tutorial</category>
+      <category>ggplot2</category>
+      <category>gganimate</category>
+      <category>tidytuesday</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate</guid>
       <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/img/dino_tidytuesday.gif" medium="image" type="image/gif"/>
@@ -28,6 +38,9 @@
       <title>Importing Multiple Files Quickly and Efficiently</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-importing-multiple-files-quickly-and-efficiently</link>
       <description>Save countless hours with just one line of code.</description>
+      <category>data wrangling</category>
+      <category>tutorial</category>
+      <category>purrr</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-10-importing-multiple-files-quickly-and-efficiently</guid>
       <pubDate>Sat, 30 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif" medium="image" type="image/gif"/>
@@ -36,6 +49,10 @@
       <title>Adding Crosstalk Interactivity</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</link>
       <description>Linking an interactive plot and table together with the crosstalk package.</description>
+      <category>data visualization</category>
+      <category>tutorial</category>
+      <category>reactable</category>
+      <category>crosstalk</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity</guid>
       <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity/img/crosstalk_gif.gif" medium="image" type="image/gif"/>
@@ -44,6 +61,8 @@
       <title>2020 RStudio Table Contest</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</link>
       <description>My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.</description>
+      <category>data visualization</category>
+      <category>reactable</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post</guid>
       <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/img/preview.PNG" medium="image" type="image/png" width="928" height="678"/>
@@ -52,6 +71,10 @@
       <title>The Analytics Say 'Go for It!'</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it</link>
       <description>The rate at which NFL teams are going for it on 4th &amp; short are at an all-time high.</description>
+      <category>data visualization</category>
+      <category>tutorial</category>
+      <category>reactable</category>
+      <category>nflfastR</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it</guid>
       <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it/img/go_for_it_table.png" medium="image" type="image/png" width="859" height="668"/>
@@ -60,6 +83,9 @@
       <title>NCAA Tourney Visualization</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-ncaa-tourney-visualization</link>
       <description>How I created the NCAA Tourney Visualization I made for #TidyTuesday.</description>
+      <category>data visualization</category>
+      <category>ggplot2</category>
+      <category>tidytuesday</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-10-ncaa-tourney-visualization</guid>
       <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-10-ncaa-tourney-visualization/img/tourney_viz.png" medium="image" type="image/png" width="6000" height="3000"/>
@@ -68,6 +94,9 @@
       <title>Visualizing NFL Division Ratings</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings</link>
       <description>Distribution of team ratings by NFL division since 2002.</description>
+      <category>data visualization</category>
+      <category>data wrangling</category>
+      <category>tutorial</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings</guid>
       <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings/img/AFC North Division.png" medium="image" type="image/png" width="2400" height="2400"/>
@@ -76,6 +105,11 @@
       <title>Re-creating a Chart from NPR with ggplot2</title>
       <link>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</link>
       <description>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</description>
+      <category>data visualization</category>
+      <category>data wrangling</category>
+      <category>tutorial</category>
+      <category>fredr</category>
+      <category>ggplot2</category>
       <guid>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2</guid>
       <pubDate>Sun, 24 May 2020 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/img/source_payroll_plot.PNG" medium="image" type="image/png" width="752" height="526"/>
@@ -83,7 +117,10 @@
     <item>
       <title>Creating Interactive Maps in R</title>
       <link>https://kcanalytics.netlify.app/posts/welcome</link>
-      <description>This post shows you how to create interactive maps in R using the highcharter package.</description>
+      <description>This post shows you how to create interactive maps in R using the {highcharter} package.</description>
+      <category>data visualization</category>
+      <category>tutorial</category>
+      <category>highcharter</category>
       <guid>https://kcanalytics.netlify.app/posts/welcome</guid>
       <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
       <media:content url="https://kcanalytics.netlify.app/posts/welcome/img/map_preview.PNG" medium="image" type="image/png" width="692" height="494"/>

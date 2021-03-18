@@ -83,13 +83,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-.distill-site-header {
-  padding-top: 1rem;
-}
-
 d-title h1,
 d-article h2,
 .posts-list .description h2,
 .posts-list > h1 {
   font-weight: 700;
+}
+
+.angolia-autocomplete {
+  width: 300px;
+}
+
+.posts-list .dt-tags .dt-tag {
+  font-family: 'Noto Serif JP';
+  font-weight: bold;
+  letter-spacing: 1px;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: white;
 }

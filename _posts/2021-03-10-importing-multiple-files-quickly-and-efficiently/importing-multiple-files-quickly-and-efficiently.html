@@ -110,7 +110,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Importing Multiple Files Quickly and Efficiently"]},{"type":"character","attributes":{},"value":["Save countless hours with just one line of code.\n"]},{"type":"character","attributes":{},"value":["01-30-2021"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","categories","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Importing Multiple Files Quickly and Efficiently"]},{"type":"character","attributes":{},"value":["Save countless hours with just one line of code.\n"]},{"type":"character","attributes":{},"value":["data wrangling","tutorial","purrr"]},{"type":"character","attributes":{},"value":["01-30-2021"]},{"type":"character","attributes":{},"value":["https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1466,6 +1466,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-title">
 <h1>Importing Multiple Files Quickly and Efficiently</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">data wrangling</div>
+<div class="dt=tag">tutorial</div>
+<div class="dt=tag">purrr</div>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>Save countless hours with just one line of code.</p></p>
 </div>
@@ -1546,7 +1551,7 @@ Show code
     res &lt;- map(.x, .f, ...)
     dplyr::bind_rows(res, .id = .id)
 }
-&lt;bytecode: 0x0000000018c35fa0&gt;
+&lt;bytecode: 0x0000000018c2f260&gt;
 &lt;environment: namespace:purrr&gt;</code></pre>
 </div>
 <p>You can see that <code>map_df</code> essentially takes the list of files and uses <code>bind_rows()</code> to combine them into a single dataframe by passing it through a function (<code>.f</code>) that you provide. In this case, the function that we are using is <code>fread()</code> which comes from the data.table package. <code>fread()</code> is essentially the same as <code>read.csv()</code> but it is significantly faster.</p>
@@ -1622,7 +1627,7 @@ Show code
 </code></pre>
 </div>
 </details>
-<pre><code>1.66 sec elapsed</code></pre>
+<pre><code>1.99 sec elapsed</code></pre>
 </div>
 <p>The answer: just over one second!</p>
 <h1 id="bonus-including-file-names">Bonus: Including File Names</h1>
@@ -1707,7 +1712,7 @@ Show code
 </code></pre>
 </div>
 </details>
-<pre><code>1.25 sec elapsed</code></pre>
+<pre><code>1.55 sec elapsed</code></pre>
 </div>
 <p>This is actually just a tick faster than <code>map_df()</code> and only requires one package (data.table) vs two (data.table and purrr) so it is a solid alternative.</p>
 <p>The other function you can use is <code>vroom()</code> from the vroom package. One minor difference between <code>vroom()</code> vs the other two methods is that the results are stored in a tibble vs a dataframe:</p>
@@ -1726,7 +1731,7 @@ Show code
 </code></pre>
 </div>
 </details>
-<pre><code>2.45 sec elapsed</code></pre>
+<pre><code>3.16 sec elapsed</code></pre>
 </div>
 <p>For this example, <code>vroom()</code> is a tiny bit slower than both <code>map_df()</code> and <code>rbindlist()</code> but is still another great alternative.</p>
 <h1 id="speed-test-summary">Speed Test Summary</h1>
@@ -1757,9 +1762,9 @@ Show code
  rbindlist(lapply(list.files(), fread, select = c(&quot;Artist Name&quot;,      &quot;Track Name&quot;, &quot;Album Name&quot;)))
                 vroom(list.files(), col_select = c(&quot;Artist Name&quot;, &quot;Track Name&quot;,      &quot;Album Name&quot;))
       min       lq     mean   median       uq      max neval
- 1.493879 1.519828 1.634031 1.535737 1.687216 2.217657    10
- 1.162576 1.177250 1.208328 1.181566 1.213362 1.346532    10
- 2.074932 2.082092 2.111949 2.098802 2.137968 2.164144    10</code></pre>
+ 1.815179 1.826620 1.907748 1.889112 1.972591 2.076474    10
+ 1.403593 1.470827 1.513574 1.483169 1.560270 1.717772    10
+ 2.518457 2.555223 2.646246 2.635043 2.688667 2.948433    10</code></pre>
 </div>
 <p>As you can see, all three functions we used (<code>map_df()</code>, <code>rbindlist()</code>, and <code>vroom()</code>) are incredibly fast at importing and combining files in R. For our scenario of combining 500 .csv files containing &gt;32k rows in total, <code>rbindlist()</code> was the fastest, followed closely by <code>map_df()</code> and <code>vroom()</code>. However, depending on the number and size of the files you’re combining, the speeds for each method will vary and this may not always be the order in which they finish iterating. The bottom line is that it doesn’t really matter which of the three methods above that you use to import and combine files because they are all incredibly fast. What matters is that if you’re still using <code>read.csv()</code> and <code>rbind()</code> to import and combine your files, hopefully now you’re aware there are much easier, faster, and infallible ways to accomplish this task.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>

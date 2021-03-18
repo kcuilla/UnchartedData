@@ -457,265 +457,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
-  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
-  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-
-  <script type="application/javascript">
-
-  function getMeta(metaName) {
-    var metas = document.getElementsByTagName('meta');
-    for (let i = 0; i < metas.length; i++) {
-      if (metas[i].getAttribute('name') === metaName) {
-        return metas[i].getAttribute('content');
-      }
-    }
-    return '';
-  }
-
-  function offsetURL(url) {
-    var offset = getMeta('distill:offset');
-    return offset ? offset + '/' + url : url;
-  }
-
-  function createFuseIndex() {
-
-    // create fuse index
-    var options = {
-      keys: [
-        { name: 'title', weight: 20 },
-        { name: 'categories', weight: 15 },
-        { name: 'description', weight: 10 },
-        { name: 'contents', weight: 5 },
-      ],
-      ignoreLocation: true,
-      threshold: 0
-    };
-    var fuse = new window.Fuse([], options);
-
-    // fetch the main search.json
-    return fetch(offsetURL('search.json'))
-      .then(function(response) {
-        if (response.status == 200) {
-          return response.json().then(function(json) {
-            // index main articles
-            json.articles.forEach(function(article) {
-              fuse.add(article);
-            });
-            // download collections and index their articles
-            return Promise.all(json.collections.map(function(collection) {
-              return fetch(offsetURL(collection)).then(function(response) {
-                if (response.status === 200) {
-                  return response.json().then(function(articles) {
-                    articles.forEach(function(article) {
-                      fuse.add(article);
-                    });
-                  })
-                } else {
-                  return Promise.reject(
-                    new Error('Unexpected status from search index request: ' +
-                              response.status)
-                  );
-                }
-              });
-            })).then(function() {
-              return fuse;
-            });
-          });
-
-        } else {
-          return Promise.reject(
-            new Error('Unexpected status from search index request: ' +
-                        response.status)
-          );
-        }
-      });
-  }
-
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-
-    // get search element (bail if we don't have one)
-    var searchEl = window.document.getElementById('distill-search');
-    if (!searchEl)
-      return;
-
-    createFuseIndex()
-      .then(function(fuse) {
-
-        // make search box visible
-        searchEl.classList.remove('hidden');
-
-        // initialize autocomplete
-        var options = {
-          autoselect: true,
-          hint: false,
-          minLength: 2,
-        };
-        window.autocomplete(searchEl, options, [{
-          source: function(query, callback) {
-            const searchOptions = {
-              isCaseSensitive: false,
-              shouldSort: true,
-              minMatchCharLength: 2,
-              limit: 10,
-            };
-            var results = fuse.search(query, searchOptions);
-            callback(results
-              .map(function(result) { return result.item; })
-            );
-          },
-          templates: {
-            suggestion: function(suggestion) {
-              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
-                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
-                : '';
-              var html = `
-                <div class="search-item">
-                  <h3>${suggestion.title}</h3>
-                  <div class="search-item-description">
-                    ${suggestion.description || ''}
-                  </div>
-                  <div class="search-item-preview">
-                    ${img}
-                  </div>
-                </div>
-              `;
-              return html;
-            }
-          }
-        }]).on('autocomplete:selected', function(event, suggestion) {
-          window.location.href = offsetURL(suggestion.path);
-        });
-        // remove inline display style on autocompleter (we want to
-        // manage responsive display via css)
-        $('.algolia-autocomplete').css("display", "");
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-  });
-
-  </script>
-
-  <style type="text/css">
-
-  .nav-search {
-    font-size: x-small;
-  }
-
-  /* Algolioa Autocomplete */
-
-  .algolia-autocomplete {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: sub;
-    background-color: white;
-    color: black;
-    padding: 6px;
-    padding-top: 8px;
-    padding-bottom: 0;
-    border-radius: 6px;
-    border: 1px #0F2E3D solid;
-    width: 180px;
-  }
-
-
-  @media screen and (max-width: 768px) {
-    .distill-site-nav .algolia-autocomplete {
-      display: none;
-      visibility: hidden;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete {
-      display: inline-block;
-      visibility: visible;
-    }
-    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
-      margin-left: 0;
-      width: 400px;
-      max-height: 400px;
-    }
-  }
-
-  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
-    width: 90%;
-    outline: none;
-    border: none;
-  }
-
-  .algolia-autocomplete .aa-hint {
-    color: #999;
-  }
-  .algolia-autocomplete .aa-dropdown-menu {
-    width: 550px;
-    max-height: 70vh;
-    overflow-x: visible;
-    overflow-y: scroll;
-    padding: 5px;
-    margin-top: 3px;
-    margin-left: -150px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #999;
-    border-top: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
-    cursor: pointer;
-    padding: 5px 4px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
-    border-bottom: none;
-    margin-bottom: 2px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
-    overflow: hidden;
-    font-size: 0.8em;
-    line-height: 1.4em;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
-    font-size: 1rem;
-    margin-block-start: 0;
-    margin-block-end: 5px;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
-    display: inline-block;
-    overflow: hidden;
-    height: 2.8em;
-    width: 80%;
-    margin-right: 4%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
-    display: inline-block;
-    width: 15%;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
-    height: 3em;
-    width: auto;
-    display: none;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
-    display: initial;
-  }
-
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
-    background-color: #eee;
-  }
-  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
-    font-weight: bold;
-    font-style: normal;
-  }
-
-  </style>
-
-
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
 
@@ -2143,15 +1884,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-weight: 700;
   }
 
-  .distill-site-header {
-    padding-top: 1rem;
-  }
-
   d-title h1,
   d-article h2,
   .posts-list .description h2,
   .posts-list > h1 {
     font-weight: 700;
+  }
+
+  .angolia-autocomplete {
+    width: 300px;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    font-family: 'Noto Serif JP';
+    font-weight: bold;
+    letter-spacing: 1px;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
   }
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -2174,7 +1923,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a href="index.html" class="title">KC Analytics</a>
-<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="index.html">Home</a>
@@ -2318,11 +2066,11 @@ function init_posts_list() {
 
 
 
-<div class="posts-container posts-apply-limit l-page">
+<div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="KC Analytics">KC Analytics</h1>
 <a href="posts/2021-03-11-introducing-the-reactablefmtr-package/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","R package","tutorial","reactable","reactablefmtr"]}</script>
 <div class="metadata">
 <div class="publishedDate">Feb. 19, 2021</div>
 <div class="dt-authors"></div>
@@ -2332,12 +2080,18 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Introducing the {reactablefmtr} Package</h2>
-<div class="dt-tags"></div>
-<p>Linking an interactive plot and table together with the crosstalk package.</p>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">R package</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">reactable</div>
+<div class="dt-tag">reactablefmtr</div>
+</div>
+<p>An R package created to make the styling and customization of {reactable} tables easier.</p>
 </div>
 </a>
 <a href="posts/2021-03-10-animating-charts-with-gganimate/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","tutorial","ggplot2","gganimate","tidytuesday"]}</script>
 <div class="metadata">
 <div class="publishedDate">Feb. 6, 2021</div>
 <div class="dt-authors"></div>
@@ -2347,12 +2101,18 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Animating Charts with gganimate</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">ggplot2</div>
+<div class="dt-tag">gganimate</div>
+<div class="dt-tag">tidytuesday</div>
+</div>
 <p>How to make your ggplot2 chart come alive.</p>
 </div>
 </a>
 <a href="posts/2021-03-10-importing-multiple-files-quickly-and-efficiently/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data wrangling","tutorial","purrr"]}</script>
 <div class="metadata">
 <div class="publishedDate">Jan. 30, 2021</div>
 <div class="dt-authors"></div>
@@ -2362,12 +2122,16 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Importing Multiple Files Quickly and Efficiently</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data wrangling</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">purrr</div>
+</div>
 <p>Save countless hours with just one line of code.</p>
 </div>
 </a>
 <a href="posts/2021-03-09-adding-crosstalk-interactivity/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","tutorial","reactable","crosstalk"]}</script>
 <div class="metadata">
 <div class="publishedDate">Jan. 15, 2021</div>
 <div class="dt-authors"></div>
@@ -2377,12 +2141,17 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Adding Crosstalk Interactivity</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">reactable</div>
+<div class="dt-tag">crosstalk</div>
+</div>
 <p>Linking an interactive plot and table together with the crosstalk package.</p>
 </div>
 </a>
 <a href="posts/2021-03-05-title-of-post/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","reactable"]}</script>
 <div class="metadata">
 <div class="publishedDate">Jan. 5, 2021</div>
 <div class="dt-authors"></div>
@@ -2392,12 +2161,15 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>2020 RStudio Table Contest</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">reactable</div>
+</div>
 <p>My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.</p>
 </div>
 </a>
 <a href="posts/2021-03-11-the-analytics-say-go-for-it/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","tutorial","reactable","nflfastR"]}</script>
 <div class="metadata">
 <div class="publishedDate">Jan. 3, 2021</div>
 <div class="dt-authors"></div>
@@ -2407,12 +2179,17 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>The Analytics Say 'Go for It!'</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">reactable</div>
+<div class="dt-tag">nflfastR</div>
+</div>
 <p>The rate at which NFL teams are going for it on 4th &amp; short are at an all-time high.</p>
 </div>
 </a>
 <a href="posts/2021-03-10-ncaa-tourney-visualization/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","ggplot2","tidytuesday"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 12, 2020</div>
 <div class="dt-authors"></div>
@@ -2422,12 +2199,16 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>NCAA Tourney Visualization</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">ggplot2</div>
+<div class="dt-tag">tidytuesday</div>
+</div>
 <p>How I created the NCAA Tourney Visualization I made for #TidyTuesday.</p>
 </div>
 </a>
 <a href="posts/2021-03-10-nfldivisionratings/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","data wrangling","tutorial"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 13, 2020</div>
 <div class="dt-authors"></div>
@@ -2437,12 +2218,16 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Visualizing NFL Division Ratings</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">data wrangling</div>
+<div class="dt-tag">tutorial</div>
+</div>
 <p>Distribution of team ratings by NFL division since 2002.</p>
 </div>
 </a>
 <a href="posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","data wrangling","tutorial","fredr","ggplot2"]}</script>
 <div class="metadata">
 <div class="publishedDate">May 24, 2020</div>
 <div class="dt-authors"></div>
@@ -2452,12 +2237,18 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Re-creating a Chart from NPR with ggplot2</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">data wrangling</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">fredr</div>
+<div class="dt-tag">ggplot2</div>
+</div>
 <p>Step-by-step guide on how I re-created a chart from NPR with ggplot2.</p>
 </div>
 </a>
 <a href="posts/welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["data visualization","tutorial","highcharter"]}</script>
 <div class="metadata">
 <div class="publishedDate">April 5, 2020</div>
 <div class="dt-authors"></div>
@@ -2467,10 +2258,81 @@ function init_posts_list() {
 </div>
 <div class="description">
 <h2>Creating Interactive Maps in R</h2>
-<div class="dt-tags"></div>
-<p>This post shows you how to create interactive maps in R using the highcharter package.</p>
+<div class="dt-tags">
+<div class="dt-tag">data visualization</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">highcharter</div>
+</div>
+<p>This post shows you how to create interactive maps in R using the {highcharter} package.</p>
 </div>
 </a>
+</div>
+<div class="posts-sidebar">
+<div class="sidebar-section categories">
+<h3>Categories</h3>
+<ul>
+<li>
+<a href="#category:Articles">Articles</a>
+<span class="category-count">(10)</span>
+</li>
+<li>
+<a href="#category:crosstalk">crosstalk</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:data_visualization">data visualization</a>
+<span class="category-count">(9)</span>
+</li>
+<li>
+<a href="#category:data_wrangling">data wrangling</a>
+<span class="category-count">(3)</span>
+</li>
+<li>
+<a href="#category:fredr">fredr</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:gganimate">gganimate</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:ggplot2">ggplot2</a>
+<span class="category-count">(3)</span>
+</li>
+<li>
+<a href="#category:highcharter">highcharter</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:nflfastR">nflfastR</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:purrr">purrr</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:R_package">R package</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:reactable">reactable</a>
+<span class="category-count">(4)</span>
+</li>
+<li>
+<a href="#category:reactablefmtr">reactablefmtr</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:tidytuesday">tidytuesday</a>
+<span class="category-count">(2)</span>
+</li>
+<li>
+<a href="#category:tutorial">tutorial</a>
+<span class="category-count">(8)</span>
+</li>
+</ul>
+</div>
 </div>
 <div class="posts-more">
 <a href="#">More articles &raquo;</a>

@@ -2,6 +2,9 @@
 title: "2020 RStudio Table Contest"
 description: |
   My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.
+categories:
+  - data visualization
+  - reactable
 date: 01-05-2021
 preview: img/preview.PNG
 output:

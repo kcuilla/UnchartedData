@@ -2,6 +2,10 @@
 title: "NCAA Tourney Visualization"
 description: |
   How I created the NCAA Tourney Visualization I made for #TidyTuesday.
+categories:
+  - data visualization
+  - ggplot2
+  - tidytuesday
 date: 10-12-2020
 preview: img/tourney_viz.png
 output:

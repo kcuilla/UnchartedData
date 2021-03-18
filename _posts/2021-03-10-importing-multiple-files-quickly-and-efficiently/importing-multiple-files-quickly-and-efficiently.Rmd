@@ -2,6 +2,10 @@
 title: "Importing Multiple Files Quickly and Efficiently"
 description: |
   Save countless hours with just one line of code.
+categories:
+  - data wrangling
+  - tutorial
+  - purrr
 date: 01-30-2021
 preview: https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif
 output:
