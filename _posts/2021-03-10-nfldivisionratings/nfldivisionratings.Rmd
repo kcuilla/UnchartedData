@@ -2,6 +2,9 @@
 title: "Visualizing NFL Division Ratings"
 description: |
   Distribution of team ratings by NFL division since 2002.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - data wrangling

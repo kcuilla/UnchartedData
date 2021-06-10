@@ -1,8 +1,8 @@
-name: "kc_analytics"
-title: "KC Analytics"
+name: "UNCHARTED DATA"
+title: "UNCHARTED DATA"
 description: |
-  KC Analytics
-base_url: https://kcanalytics.netlify.app/
+  Uncharted Data
+base_url: https://uncharteddata.netlify.app/
 output_dir: "_site"
 navbar:
   right:

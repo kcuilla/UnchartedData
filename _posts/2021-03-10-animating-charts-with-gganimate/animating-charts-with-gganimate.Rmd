@@ -2,6 +2,9 @@
 title: "Animating Charts with gganimate"
 description: |
   How to make your ggplot2 chart come alive.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - tutorial

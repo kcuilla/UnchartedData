@@ -2,6 +2,9 @@
 title: "Re-creating a Chart from NPR with ggplot2"
 description: |
   Step-by-step guide on how I re-created a chart from NPR with ggplot2.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - data wrangling

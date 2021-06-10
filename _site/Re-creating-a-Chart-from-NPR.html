@@ -86,7 +86,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>KC Analytics: Re-creating a Chart from NPR with ggplot2</title>
+  <title>UNCHARTED DATA: Re-creating a Chart from NPR with ggplot2</title>
 
   <meta property="description" itemprop="description" content="Step-by-step guide on how I re-created a chart from NPR with ggplot2."/>
 
@@ -96,15 +96,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="article:created" itemprop="dateCreated" content="2021-05-24"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="KC Analytics: Re-creating a Chart from NPR with ggplot2"/>
+  <meta property="og:title" content="UNCHARTED DATA: Re-creating a Chart from NPR with ggplot2"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Step-by-step guide on how I re-created a chart from NPR with ggplot2."/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="KC Analytics"/>
+  <meta property="og:site_name" content="UNCHARTED DATA"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="KC Analytics: Re-creating a Chart from NPR with ggplot2"/>
+  <meta property="twitter:title" content="UNCHARTED DATA: Re-creating a Chart from NPR with ggplot2"/>
   <meta property="twitter:description" content="Step-by-step guide on how I re-created a chart from NPR with ggplot2."/>
 
   <!--/radix_placeholder_meta_tags-->
@@ -2170,7 +2170,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="index.html" class="title">KC Analytics</a>
+<a href="index.html" class="title">UNCHARTED DATA</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
@@ -2211,7 +2211,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>In order to connect to the FRED API, you need to first obtain a <a href="https://research.stlouisfed.org/docs/api/api_key.html">FRED API key</a>. Once you have a key, replace the “FRED_API_KEY” below with your key number and you will be granted access to the FRED database.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/fredr/man/fredr_set_key.html'>fredr_set_key</a></span><span class='op'>(</span><span class='va'>FRED_API_KEY</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/fredr/man/fredr-key.html'>fredr_set_key</a></span><span class='op'>(</span><span class='va'>FRED_API_KEY</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2222,20 +2222,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/fredr/man/fredr.html'>fredr</a></span><span class='op'>(</span>series_id <span class='op'>=</span> <span class='st'>"PAYEMS"</span>, units <span class='op'>=</span> <span class='st'>"chg"</span><span class='op'>)</span>
 </code></pre>
 </div>
-<pre><code># A tibble: 986 x 3
-   date       series_id value
-   &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;
- 1 1939-01-01 PAYEMS       NA
- 2 1939-02-01 PAYEMS      177
- 3 1939-03-01 PAYEMS      180
- 4 1939-04-01 PAYEMS     -186
- 5 1939-05-01 PAYEMS      205
- 6 1939-06-01 PAYEMS      203
- 7 1939-07-01 PAYEMS      -83
- 8 1939-08-01 PAYEMS      244
- 9 1939-09-01 PAYEMS      368
-10 1939-10-01 PAYEMS      380
-# ... with 976 more rows</code></pre>
+<pre><code># A tibble: 989 x 5
+   date       series_id value realtime_start realtime_end
+   &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;date&gt;         &lt;date&gt;      
+ 1 1939-01-01 PAYEMS       NA 2021-06-10     2021-06-10  
+ 2 1939-02-01 PAYEMS      177 2021-06-10     2021-06-10  
+ 3 1939-03-01 PAYEMS      180 2021-06-10     2021-06-10  
+ 4 1939-04-01 PAYEMS     -186 2021-06-10     2021-06-10  
+ 5 1939-05-01 PAYEMS      205 2021-06-10     2021-06-10  
+ 6 1939-06-01 PAYEMS      203 2021-06-10     2021-06-10  
+ 7 1939-07-01 PAYEMS      -83 2021-06-10     2021-06-10  
+ 8 1939-08-01 PAYEMS      244 2021-06-10     2021-06-10  
+ 9 1939-09-01 PAYEMS      368 2021-06-10     2021-06-10  
+10 1939-10-01 PAYEMS      380 2021-06-10     2021-06-10  
+# ... with 979 more rows</code></pre>
 </div>
 <p>The first observation in dataset above, January 1939, contains a missing value since we pulled the month-to-month change and this was the first month in the series.</p>
 <p>In the code below, we can replace the NA with 0 by using <code>replace(is.na(.), 0)</code> and create a new column called <code>color_assign</code> that assigns the color black to values with a positive change and red to values with a negative change in order to match the colors used within the NPR chart.</p>

@@ -2,6 +2,9 @@
 title: "Introducing the {reactablefmtr} Package"
 description: |
   An R package created to make the styling and customization of {reactable} tables easier.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - tutorial
@@ -14,226 +17,203 @@ output:
     code_folding: true
 ---
 
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+
 # About
 
-The [{reactable}](https://glin.github.io/reactable/) package is a fantastic package for building interactive data tables in R. However, if you want to customize and style the table, it requires a bit of lengthy code and an understanding of how functions work. This can be a bit of a deterrent, especially for novice R users.
+The {reactablefmtr} package simplifies and enhances the styling and formatting of tables built with the {reactable} **R** package. The {reactablefmtr} package provides many conditional formatters that are highly customizable and easy to use.
 
-The {reactablefmtr} package was created to simplify this process so that anyone can create beautiful tables in {reactable} regardless of their level of R expertise.
+* **Conditionally format tables** with [color scales](https://kcuilla.github.io/reactablefmtr/articles/color_scales.html), [color tiles](https://kcuilla.github.io/reactablefmtr/articles/color_tiles.html), and [data bars](https://kcuilla.github.io/reactablefmtr/articles/data_bars.html). Assign icons from [Font Awesome](https://fontawesome.com/icons?d=gallery&p=2) with [icon assign](https://kcuilla.github.io/reactablefmtr/articles/icon_assign.html) and [icon sets](https://kcuilla.github.io/reactablefmtr/articles/icon_sets.html).
+  
+* **Custom table themes** that can [easily](https://kcuilla.github.io/reactablefmtr/articles/themes.html) be applied to any {reactablefmtr} or {reactable} table.
+  
+* **Embed images** directly from the web into your [table](https://kcuilla.github.io/reactablefmtr/articles/embed_img.html).
+  
+* **Save tables** as static PNG files or as interactive HTML files.
 
-It was also created to introduce new ways to enhance the styling of {reactable} that were not previously available.
+The {reactablefmtr} package was built using a combination of **R**, **CSS**, and **HTML** in order to allow any level of **R** user to build highly customizable and stylish tables without having to learn additional programming languages.
 
-# Getting Started
+For more examples, check out the [vignettes](https://kcuilla.github.io/reactablefmtr/articles/). To stay up to date with the latest upgrades to the development version, be sure to follow the package [news](https://kcuilla.github.io/reactablefmtr/news/index.html).
 
-I'll go over a brief intro on how to get started in this post, but if you want to see additional examples/tutorials, they are outlined extensively on the [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/index.html) package site.
+## Installation
 
-### Install {reactablefmtr}
-
-The {reactablefmtr} package is available on CRAN and can be installed with:
+The {reactablefmtr} package is available from CRAN and can be installed with:
 
 ```{r, eval=FALSE}
 install.packages("reactablefmtr")
 ```
 
-However, if you want to use the latest version of the package which includes many new enhancements, you can download the development version with:
+Or install the development version of {reactablefmtr} with:
 
 ```{r, eval=FALSE}
 remotes::install_github("kcuilla/reactablefmtr")
 ```
 
-For details on what features are currently available in the development version, please see the latest package [news](https://kcuilla.github.io/reactablefmtr/news/index.html).
+## Examples
 
-### Examples
+### Data Bars
 
-### color_scales()
+Use `data_bars()` to assign horizontal bars to each row. There are many ways to [customize](https://kcuilla.github.io/reactablefmtr/reference/data_bars.html) the look of `data_bars()`, including the alignment of the bars, the position of the text labels, and the option to add icons and images to the bars. See the [tutorial](https://kcuilla.github.io/reactablefmtr/articles/data_bars.html) for customization examples. 
 
-By default, `color_scales()` assigns a three-color red-white-blue pattern based on the value of the cells in a column from low to high:
+
+<img src="https://raw.githubusercontent.com/kcuilla/reactablefmtr/main/man/figures/data_bars_animated_demo.gif" align="center" />
+
+
+### Color Scales
+
+Use `color_scales()` to assign conditional colors to cells based on their relative values. The color of the text in the cells automatically adjusts based on the shade of the cell color, allowing the use of dark-colored palettes (such as viridis::magma shown below).
 
 ```{r}
 library(reactablefmtr)
-
-data <- iris[10:29, ]
-
-reactable(data,
-          columns = list(Petal.Length = colDef(style = color_scales(data))))
-```
-
-You can change the color scheme to any number of colors you'd like by specifying the colors in a vector and `color_scales()` will assign the colors from low to high in the order you provide:
-
-```{r}
-reactable(data,
-          columns = list(
-          Petal.Length = colDef(style = color_scales(data, 
-                                                     colors = c("purple", "pink", "white", "darkgreen")))))
-```
-
-Previously in {reactable}, using dark color palettes such as the "magma" color set from {viridis} was troublesome since you couldn't see the values in the cells with dark backgrounds. Now, with {reactablefmtr}, the colors of the values automatically are changed to white if the colors are dark:
-
-```{r}
+library(palmerpenguins)
+library(dplyr)
 library(viridis)
+  
+data <- sample_n(penguins, 50) %>% 
+  filter(!is.na(bill_length_mm)) %>% 
+  select(species, bill_length_mm, bill_depth_mm, flipper_length_mm)
 
-reactable(data,
-          columns = list(
-          Petal.Length = colDef(style = color_scales(data,
-                                                      colors = viridis::magma(5)))))
-```
-
-### data_bars()
-
-By default, `data_bars()` assigns a horizontal bar to each row relative to it's value compared to other values in a particular column:
-
-```{r}
-data <- MASS::Cars93[20:49, c("Make", "MPG.city", "MPG.highway")]
-
-reactable(data,
-          columns = list(
-          MPG.city = colDef(align = "left", # align column header
-                            cell = data_bars(data))))
-```
-
-You can change both the color of the data bars and the background:
-
-```{r}
-reactable(data,
-          columns = list(
-          MPG.city = colDef(align = "left", # align column header
-                            cell = data_bars(data, "forestgreen", "lightgrey"))))
-```
-
-Just like with `color_scales()`, you can apply a gradient of colors to your data bars if you assign more than one color in a vector:
-
-```{r}
-data <- MASS::Cars93[1:15, c("Make", "MPG.city", "MPG.highway")]
-
-reactable(data,
-  pagination = FALSE, # display all rows on one page
-  defaultSortOrder = "desc", # sort by descending order
-  defaultSorted = "MPG.city", # sort by MPG.city
-  defaultColDef = colDef(cell = data_bars(data, c("firebrick1", "gold", "limegreen")
-  ))
+reactable(
+  data,
+  columns = list(
+    bill_length_mm = colDef(style = color_scales(data, colors = viridis::magma(5))),
+    bill_depth_mm = colDef(style = color_scales(data, colors = viridis::magma(5))),
+    flipper_length_mm = colDef(style = color_scales(data, colors = viridis::magma(5)))
+  )
 )
 ```
 
-You can also now format numbers with the scales package the same way that you would format numbers in the `color_tiles()` example above. The `number_fmt` option is available for `data_bars_gradient()` and `data_bars_pos_neg()` as well.
+
+
+By default, colors are conditionally assigned to values within each column, but can also be assigned to row-wise data as shown below. See the [tutorial](https://kcuilla.github.io/reactablefmtr/articles/color_scales.html) for more examples.
 
 ```{r}
-car_prices <- MASS::Cars93[20:49, c("Make", "Price", "Weight")]
+dimnames <- list(start(nottem)[1]:end(nottem)[1], month.abb)
+temps <- matrix(nottem, ncol = 12, byrow = TRUE, dimnames = dimnames)
+temps <- as_tibble(temps, rownames = "Year")
 
-reactable(car_prices,
+reactable(
+  temps,
+  defaultColDef = colDef(
+    style = color_scales(temps, span = TRUE, colors = c("#1e90ff", "#ffffff", "#ff3030")),
+    minWidth = 50
+  )
+)
+```
+
+
+A similar formatter to `color_scales()` is `color_tiles()`. Numbers can be formatted using any formatter from the {scales} package, just like how they are in {ggplot2}. See the [tutorial](https://kcuilla.github.io/reactablefmtr/articles/color_tiles.html) for customization options.
+
+
+
+### Icon Sets
+
+Use `icon_sets()` to conditionally assign icons to values from the [Font Awesome](https://fontawesome.com/icons?d=gallery&p=2) library based on their relative values. Any number of icons and/or colors can be applied to values within each column. Customization options such as number formatting and positioning of icons are also available. See the [tutorial](https://kcuilla.github.io/reactablefmtr/articles/icon_sets.html) for more options.
+
+```{r}
+mtcars[1:10,c(1,2,4)] %>% 
+reactable(., 
+          theme = flatly(),
+          defaultColDef = colDef(maxWidth = 150),
           columns = list(
-            Price = colDef(align = "center",
-                           cell = data_bars(car_prices,
-                                            number_fmt = scales::dollar_format(accuracy = 1))),
-            Weight = colDef(align = "center",
-                            cell = data_bars(car_prices,
-                                             number_fmt = scales::comma))))
+            mpg = colDef(cell = icon_sets(., icons = "gas-pump", colors = c("red","blue","green"))),
+            cyl = colDef(cell = icon_sets(., icons = "car-side", colors = c("red","blue","green"))),
+            hp = colDef(cell = icon_sets(., icons = "horse-head", colors = c("red","blue","green")))
+          )
+)
 ```
 
 
-### data_bars_gradient()
+ 
+### Icon Assign
 
-If you would like to customize your `data_bars()` a step further and apply a linear color gradient, you can now use `data_bars_gradient()`:
+Use `icon_assign()` to assign icons to values from the [Font Awesome](https://fontawesome.com/icons?d=gallery&p=2) library. Multiple customization options are available, such as bucketing values and the option to show/hide values next to the icons. See the [tutorial](https://kcuilla.github.io/reactablefmtr/articles/icon_assign.html) for more options.
 
 ```{r}
-library(palmerpenguins)
-library(dplyr)
+data <- MASS::Cars93[1:20, c("Make", "Cylinders", "MPG.city", "Price")]
 
-data <- sample_n(penguins,50) %>% # sample 50 rows
-  filter(!is.na(bill_length_mm)) %>% # remove NA's
-  select(species, island, body_mass_g)
+data$Cylinders <- as.numeric(data$Cylinders)
 
-reactable(data,
-          columns = list(
-            body_mass_g = colDef(cell = data_bars_gradient(data))))
+reactable(
+  data,
+  defaultColDef = colDef(align = "left", maxWidth = 200),
+  columns = list(
+    Cylinders = colDef(cell = icon_assign(data)),
+    MPG.city = colDef(cell = icon_assign(data, icon = "envira", fill_color = "darkgreen", buckets = 5, show_values = "right")),
+    Price = colDef(cell = icon_assign(data, icon = "dollar-sign", fill_color = "red", empty_color = "white", buckets = 5, show_values = "right", number_fmt = scales::dollar_format(accuracy = 0.1)))
+  )
+)
 ```
 
-You can add as many colors as you would like to make the gradient:
+
+
+## Custom Themes
+
+Within {reactablefmtr}, there are 24+ custom table themes. The themes include [bootstrap](https://bootswatch.com/) themes, themes inspired by news/sports sites such as The New York Times, FiveThirtyEight, and ESPN, as well as other custom themes that can only be found within {reactablefmtr}. The themes can be applied easily to tables by simply referencing the theme name. Additional customization options, such as changing the font size, font color, etc. are also [available](https://kcuilla.github.io/reactablefmtr/articles/themes.html).
 
 ```{r}
-reactable(data,
-          columns = list(
-            body_mass_g = colDef(cell = data_bars_gradient(data, colors = c("red", "orange", "yellow", "green", "blue", "indigo", "violet")))))
+data <- MASS::Cars93[1:20, c("Model", "MPG.city", "MPG.highway")]
+        
+data %>%
+  reactable(.,
+    theme = slate(),
+    defaultColDef = colDef(
+      cell = data_bars(., fill_color = viridis::mako(5), text_position = "inside-end")
+  )
+)
 ```
 
-### data_bars_pos_neg()
 
-If your column contains negative values but you would like to show data bars for the values, you can use `data_bars_pos_neg()`:
+
+## Add a Title, Subtitle, and Source
+
+Titles and subtitles can be easily placed above any {reactablefmtr} or {reactable} table with `add_title()` and `add_subtitle()`. Also have the option to include a source below a table with `add_source()`. Additional customization options such as changing the alignment, font size, font family, font style, and font color are available within each formatter.
 
 ```{r}
-data <- MASS::Cars93[1:15, c("Make", "MPG.city", "MPG.highway")]
-
-data <- data %>% 
-  mutate(Change = round(runif(15, min = -7, max = 5))) %>% 
-  select(Make, Change)
-
-reactable(data, 
-          pagination = FALSE,
-          columns = list(
-          Change = colDef(align = "center", # align column header
-                          cell = data_bars_pos_neg(data))))
+reactable(iris[10:29, ]) %>%
+  add_title("This is a title") %>% 
+  add_subtitle("This is a subtitle") %>% 
+  add_source("This is a source")
 ```
 
-If your column is displaying percentages rather than whole numbers, you can add the percent symbol by using the percent formatter from the scales package within `number_fmt`:
 
-```{r}
-data <- data %>% 
-  mutate('% Change' = round(runif(15, min = -0.7, max = 0.7), digits = 2)) %>% 
-  select(Make, '% Change')
 
-reactable(data, 
-          pagination = FALSE,
-          columns = list(
-          `% Change` = colDef(align = "center", # align column header
-                              cell = data_bars_pos_neg(data,
-                                                       number_fmt = scales::percent))))
+## Save Static or Interactive Tables
+
+{reactablefmtr} or {reactable} tables can be saved directly to a file as a static PNG image or as an interactive HTML file with `save_reactable()`.
+
+Save as a PNG file:
+
+```{r, eval=FALSE}
+save_reactable(table_name, "table.png")
 ```
 
-You may also apply a color gradient to the data bars by assigning three or more colors:
+Save as an HTML file:
 
-```{r}
-reactable(data, 
-          pagination = FALSE,
-          columns = list(
-          `% Change` = colDef(align = "center",
-                              cell = data_bars_pos_neg(data, 
-                                                       colors = c("#ff3030", "#ffffff", "#1e90ff"), 
-                                                       number_fmt = scales::percent))))
-
+```{r, eval=FALSE}
+save_reactable(table_name, "table.html")
 ```
 
-### icon_sets()
+If custom CSS styling is applied to the table within an R Markdown document:
 
-By default, `icon_sets()` adds a circle icon from [Font Awesome](https://fontawesome.com/icons?d=gallery) to each value and assigns a color from red-orange-green depending on the value in relation to other values within a particular column:
-
-```{r}
-data <- MASS::Cars93[1:10, c("Make", "MPG.city", "MPG.highway")]
-
-reactable(data, 
-          defaultColDef = colDef(cell = icon_sets(data)))
+```{r, eval=FALSE}
+save_reactable("table_name.Rmd", "table.png")
 ```
 
-You can use any icon you'd like from the Font Awesome library by assigning the icons from low to high, as well as the color scheme:
+If you prefer to use a pipe:
 
-```{r}
-reactable(data, 
-          defaultColDef = colDef(cell = icon_sets(data, 
-                                                  icons = c("times-circle","minus-circle","check-circle"), 
-                                                  colors = c("#ff3030", "#d3d3d3", "#1e90ff"))))
+```{r, eval=FALSE}
+table_name %>%
+save_reactable("table.png")
 ```
 
-Format numbers using formatters from the scales package with `number_fmt`:
 
-```{r}
-car_prices <- MASS::Cars93[20:49, c("Make", "Price", "Weight")]
+## Acknowledgments & Contributions
 
-reactable(car_prices,
-          columns = list(
-            Price = colDef(align = "center",
-                           cell = icon_sets(car_prices,
-                                            number_fmt = scales::dollar_format(accuracy = 1))),
-            Weight = colDef(align = "center",
-                            cell = icon_sets(car_prices,
-                                             number_fmt = scales::comma))))
-```
+A huge thank you to Greg Lin for creating the amazing {reactable} [package](https://glin.github.io/reactable/index.html)! Without Greg, {reactablefmtr} simply would not exist! 
 
-For more examples, please check out the [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/index.html) package site!
+Also thank you to June Chao for contributing to the span option in `color_scales()` and `color_tiles()`!
 

@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
-    <loc>https://kcanalytics.netlify.app/about.html</loc>
-    <lastmod>2021-03-11T09:37:43-05:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/about.html</loc>
+    <lastmod>2021-06-10T15:13:09-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/</loc>
-    <lastmod>2021-03-12T09:34:22-05:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/</loc>
+    <lastmod>2021-06-10T15:11:39-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/</loc>
-    <lastmod>2021-03-18T16:58:28-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/</loc>
+    <lastmod>2021-06-10T16:37:11-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/</loc>
-    <lastmod>2021-03-18T16:13:01-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/</loc>
+    <lastmod>2021-06-10T15:39:12-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-10-importing-multiple-files-quickly-and-efficiently/</loc>
-    <lastmod>2021-03-18T16:07:02-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-10-importing-multiple-files-quickly-and-efficiently/</loc>
+    <lastmod>2021-06-10T15:38:30-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity/</loc>
-    <lastmod>2021-03-18T15:55:36-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-09-adding-crosstalk-interactivity/</loc>
+    <lastmod>2021-06-10T15:40:48-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-05-title-of-post/</loc>
-    <lastmod>2021-03-18T15:56:29-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-05-title-of-post/</loc>
+    <lastmod>2021-06-10T15:22:39-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it/</loc>
-    <lastmod>2021-03-18T16:18:04-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it/</loc>
+    <lastmod>2021-06-10T15:29:26-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-10-ncaa-tourney-visualization/</loc>
-    <lastmod>2021-03-18T16:01:33-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-10-ncaa-tourney-visualization/</loc>
+    <lastmod>2021-06-10T15:35:49-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-10-nfldivisionratings/</loc>
-    <lastmod>2021-03-18T15:58:10-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-10-nfldivisionratings/</loc>
+    <lastmod>2021-06-10T15:32:40-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/</loc>
-    <lastmod>2021-03-18T15:58:50-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/2021-03-09-re-creating-a-chart-from-npr-with-ggplot2/</loc>
+    <lastmod>2021-06-10T15:39:35-04:00</lastmod>
   </url>
   <url>
-    <loc>https://kcanalytics.netlify.app/posts/welcome/</loc>
-    <lastmod>2021-03-18T16:20:32-04:00</lastmod>
+    <loc>https://uncharteddata.netlify.app/posts/welcome/</loc>
+    <lastmod>2021-06-10T15:27:00-04:00</lastmod>
   </url>
 </urlset>

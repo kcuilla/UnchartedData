@@ -2,6 +2,9 @@
 title: "Creating Interactive Maps in R"
 description: |
   This post shows you how to create interactive maps in R using the {highcharter} package.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - tutorial

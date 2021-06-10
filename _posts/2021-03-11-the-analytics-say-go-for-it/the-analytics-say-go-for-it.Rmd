@@ -2,6 +2,9 @@
 title: "The Analytics Say 'Go for It!'"
 description: |
   The rate at which NFL teams are going for it on 4th & short are at an all-time high.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - tutorial

@@ -1,7 +1,10 @@
 ---
-title: "Adding Crosstalk Interactivity"
+title: "Using Crosstalk to Add User-Interactivity"
 description: |
   Linking an interactive plot and table together with the crosstalk package.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - tutorial

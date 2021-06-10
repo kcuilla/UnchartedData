@@ -2,6 +2,9 @@
 title: "2020 RStudio Table Contest"
 description: |
   My submission for the 2020 RStudio Table Contest which received an Honorable Mention award.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
 categories:
   - data visualization
   - reactable
