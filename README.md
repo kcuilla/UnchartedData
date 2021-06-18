@@ -1,3 +1,3 @@
-# Personal site made with distill
+# Data science & data visualization blog made with distill
 
-https://kcanalytics.netlify.app/index.html
+https://uncharteddata.netlify.app/
