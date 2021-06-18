@@ -3,6 +3,7 @@ title: "UNCHARTED DATA"
 description: |
   Uncharted Data
 base_url: https://uncharteddata.netlify.app/
+google_analytics: "UA-155982987-2"
 output_dir: "_site"
 navbar:
   right:
