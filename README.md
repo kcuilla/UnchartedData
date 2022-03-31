@@ -14,3 +14,4 @@ Some of the content I've created:
 | [Creating Interactive Maps in R](https://uncharteddata.netlify.app/posts/welcome/) | Step-by-step guide on how to create interactive choropleth maps in R |
 | [The Analytics Say ‘Go for It!’](https://uncharteddata.netlify.app/posts/2021-03-11-the-analytics-say-go-for-it/)                           | Analyze and visualize how often NFL teams go for it on 4th downs                                       |
 | [Animating Charts with {gganimate}](https://uncharteddata.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/)                                      | How to use {gganimate} to animate plots in {ggplot2}                     |
+| [Introduction to {reactablefmtr}](https://uncharteddata.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/)                                      | Brief introduction to the {reactablefmtr} package                    |
