@@ -21,6 +21,10 @@ output:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
+# Update
+
+The {reactablefmtr} package has undergone many enhancements since the date of this post. For the latest features and customization options available, please visit the package site [{reactablefmtr}](https://kcuilla.github.io/reactablefmtr/index.html).
+
 
 # About
 
@@ -119,9 +123,9 @@ reactable(.,
           theme = flatly(),
           defaultColDef = colDef(maxWidth = 150),
           columns = list(
-            mpg = colDef(cell = icon_sets(., icons = "gas-pump", colors = c("red","blue","green"))),
-            cyl = colDef(cell = icon_sets(., icons = "car-side", colors = c("red","blue","green"))),
-            hp = colDef(cell = icon_sets(., icons = "horse-head", colors = c("red","blue","green")))
+            mpg = colDef(cell = icon_sets(., icons = "gas-pump", colors = c("red","blue","forestgreen"))),
+            cyl = colDef(cell = icon_sets(., icons = "car-side", colors = c("red","blue","forestgreen"))),
+            hp = colDef(cell = icon_sets(., icons = "horse-head", colors = c("red","blue","forestgreen")))
           )
 )
 ```
@@ -142,7 +146,7 @@ reactable(
   defaultColDef = colDef(align = "left", maxWidth = 200),
   columns = list(
     Cylinders = colDef(cell = icon_assign(data)),
-    MPG.city = colDef(cell = icon_assign(data, icon = "envira", fill_color = "darkgreen", buckets = 5, show_values = "right")),
+    MPG.city = colDef(cell = icon_assign(data, icon = "envira", fill_color = "forestgreen", buckets = 5, show_values = "right")),
     Price = colDef(cell = icon_assign(data, icon = "dollar-sign", fill_color = "red", empty_color = "white", buckets = 5, show_values = "right", number_fmt = scales::dollar_format(accuracy = 0.1)))
   )
 )
@@ -161,7 +165,7 @@ data %>%
   reactable(.,
     theme = slate(),
     defaultColDef = colDef(
-      cell = data_bars(., fill_color = viridis::mako(5), text_position = "inside-end")
+      cell = data_bars(., fill_color = viridis::mako(5), background = "transparent", text_position = "inside-end")
   )
 )
 ```
