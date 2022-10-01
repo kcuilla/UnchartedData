@@ -215,6 +215,8 @@ gt_table <- cities_t %>%
     gt::gt() %>% 
     # add comma delimeters to the city_pop column
     gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    # adjust column widths
+    gt::cols_width(everything() ~ px(120)) %>%
     # apply the espn theme from {gtExtras}
     gtExtras::gt_theme_espn() %>%
     # add a title and subtitle to the table
@@ -506,6 +508,7 @@ gt_table <- cities_t %>%
     dplyr::select(state, city = most_populous_city, city_pop) %>% 
     gt::gt() %>% 
     gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    gt::cols_width(everything() ~ px(120)) %>% 
     gtExtras::gt_color_rows(city_pop, palette = "ggsci::blue_material") %>%
     gtExtras::gt_theme_espn() %>%
     gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010")
