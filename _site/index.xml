@@ -7,7 +7,20 @@
     <description>Uncharted Data
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 19 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Sep 2022 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Interactive Tooltip Tables</title>
+      <dc:creator>Kyle Cuilla</dc:creator>
+      <link>https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables</link>
+      <description>How to include tables in your {ggiraph} tooltips.</description>
+      <category>tutorial</category>
+      <category>data visualization</category>
+      <category>ggplot2</category>
+      <category>purrr</category>
+      <guid>https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables</guid>
+      <pubDate>Fri, 30 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables/img/gas_map_demo.gif" medium="image" type="image/gif"/>
+    </item>
     <item>
       <title>Introducing the {reactablefmtr} Package</title>
       <dc:creator>Kyle Cuilla</dc:creator>

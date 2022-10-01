@@ -1,0 +1,590 @@
+---
+title: "Interactive Tooltip Tables"
+description: |
+  How to include tables in your {ggiraph} tooltips.
+author:
+  - name: Kyle Cuilla
+base_url: https://uncharteddata.netlify.app/
+categories:
+  - tutorial
+  - data visualization
+  - ggplot2
+  - purrr
+  
+date: 09-30-2022
+preview: img/gas_map_demo.gif
+output:
+  distill::distill_article:
+    code_folding: true
+---
+
+# About
+
+In this tutorial, I'll show you how to add tables to interactive {ggiraph} tooltips like the one I created below using the {kableExtra} and {gt}/{gtExtras} packages.  
+
+```{r gasgif, echo=FALSE}
+knitr::include_graphics("https://raw.githubusercontent.com/kcuilla/USgasprices/main/imgs/gas_map_demo.gif")
+```
+
+<i><b>Source: [US Gas Prices Shiny App](https://kcuilla.shinyapps.io/usgasprices/#table/1)</b></i>
+
+As an added bonus, I'll show you a trick on how to apply conditional formatters from {gtExtras} to the tooltips by parsing the raw HTML content of the table. 
+
+# Interactive Tooltips
+
+[{ggiraph}](https://davidgohel.github.io/ggiraph/index.html) is an amazing package that makes any {ggplot2} graphic interactive. 
+
+The example below, which comes from the package site, shows how easy it is to make a {ggplot2} interactive:
+
+```{r ggplot}
+library(ggplot2)
+library(ggiraph)
+library(dplyr)
+
+# load mtcars dataset
+data <- mtcars %>% dplyr::select(qsec, wt, disp, mpg, hp, cyl)
+data$car <- row.names(data)
+
+# default ggiraph tooltip
+gg_point <- ggplot2::ggplot(data = data) +
+  ggiraph::geom_point_interactive(aes(
+    x = wt,
+    y = qsec,
+    color = disp,
+    data_id = car,
+    # display car in the tooltip
+    tooltip = car
+  )) +
+  ggplot2::theme_minimal()
+
+# pass through girafe to activate interactivity
+ggiraph::girafe(ggobj = gg_point)
+```
+
+If you hover your mouse over the data points on the chart, you will see the car name within the tooltip. But what if we wanted to add more info to the tooltip such as the car's mpg, hp, and number of cyl? How would we do that?
+
+Well if you've made it this far, you probably already know the answer: tables! How do we do that exactly? I'll explain step-by-step below.
+
+# Using {kableExtra} to create the table for the tooltip
+
+The first thing we need to do is to design our table. In this example, we'll use the [{kableExtra}](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) package to build the table.
+
+<i>Later, I will also show you how to use the [{gt}](https://gt.rstudio.com/) and [{gtExtras}](https://jthomasmock.github.io/gtExtras/) packages.</i> 
+
+Here's a preview of a simple table built with {kableExtra} with the columns that we need: 
+
+```{r kable}
+library(kableExtra)
+library(dplyr)
+
+table <- data %>%
+  dplyr::select(car, mpg, hp, cyl) %>% 
+  kableExtra::kbl(row.names = FALSE)
+
+table
+```
+
+If we replace 'car' with our table in the tooltip option of `ggiraph::geom_point_interactive()`, the full table will appear when hovering over each point on the plot. 
+
+Our table is showing within the tooltip, but this isn't quite what we want. Instead, we want to show the values that are relevant for each specific car.
+
+```{r ggiraph}
+gg_point <- ggplot2::ggplot(data = data) +
+  ggiraph::geom_point_interactive(aes(
+    x = wt,
+    y = qsec,
+    color = disp,
+    data_id = car,
+    tooltip = table
+  )) +
+  ggplot2::theme_minimal()
+
+girafe(ggobj = gg_point)
+```
+
+To fix this, we need to create a column within our dataset that contains a table for each row. We can write a function that will loop through each car and add its corresponding data from the mpg, hp, and cyl columns using the {purrr} package.
+
+# Creating a table for each observation
+
+We'll start by creating a simple function that filters our dataset based on the car, selects the columns we need for our table, and builds the table with {kableExtra}. This is the same code we used to build our tables in the previous section, the only difference is that we're adding a parameter to filter on the car before building our table.  
+
+```{r fun}
+make_table <- function(name) {
+  data %>%
+    # filter by car name
+    dplyr::filter(car == name) %>% 
+    dplyr::select(car, mpg, hp, cyl) %>% 
+    kableExtra::kbl(row.names = FALSE) 
+}
+```
+
+Now that we have our function, we can use `purrr::map()` to iterate over each car in the dataset and store the tables in a column called 'table'.
+
+When we look at the updated dataset, we can see that the table column contains the raw HTML that is used to create the tables in the {kableExtra} package. 
+
+```{r purrr}
+library(purrr)
+
+df <- data %>% 
+  dplyr::mutate(table = purrr::map(car, make_table)) %>% 
+  dplyr::select(car, qsec, wt, disp, table)
+
+head(df)
+```
+
+Now, when we feed the table column into the tooltip, we should get a single table for each car on the plot!
+
+```{r ggobj}
+gg_point <- ggplot2::ggplot(data = df) +
+  ggiraph::geom_point_interactive(aes(
+    x = wt,
+    y = qsec,
+    color = disp,
+    data_id = car,
+    tooltip = table
+  )) +
+  ggplot2::theme_minimal()
+
+ggiraph::girafe(ggobj = gg_point)
+```
+
+# Customizing the tooltip
+
+We can further customize the appearance of the tooltip tables by using styles from the {kableExtra} package. 
+
+In order to do that, we just need to modify the function we used to create the tables for each car and apply the styles as shown below:
+
+```{r custom}
+make_table <- function(name) {
+  data %>%
+    # filter by car name
+    dplyr::filter(car == name) %>% 
+    dplyr::select(car, mpg, hp, cyl) %>% 
+    kableExtra::kbl(row.names = FALSE) %>%
+    # change the font family and increase font size
+    kableExtra::kable_styling(font_size = 24, html_font = "Courier New") %>% 
+    # increase the width of the columns, make the text blue and bold, apply white background
+    kableExtra::column_spec(1:4, width = "3em", bold = T, color = "blue", background = "white")
+}
+
+df <- data %>% 
+  dplyr::mutate(table = purrr::map(car, make_table)) %>% 
+  dplyr::select(car, qsec, wt, disp, table)
+```
+
+And then call the table within our chart using the same method as before:
+
+```{r ggpoint}
+gg_point <- ggplot2::ggplot(data = df) +
+  ggiraph::geom_point_interactive(aes(
+    x = wt,
+    y = qsec,
+    color = disp,
+    data_id = car,
+    tooltip = table
+  )) +
+  ggplot2::theme_minimal()
+
+ggiraph::girafe(ggobj = gg_point)
+```
+
+# Using {gt} & {gtExtras}
+
+In addition to the {kableExtra} package, we can also use the {gt} and {gtExtras} packages to build tables for our tooltip.
+
+For this example, we are going to build a {gt} table that displays the most populous city in each U.S. city (based on the 2010 U.S. Census). The dataset comes from the {usmap} package, which we will also use to build a U.S. map in the next section. 
+
+Here is what the full {gt} table looks like with a theme applied from the {gtExtras} package: 
+
+```{r gt}
+library(gt)
+library(gtExtras)
+library(usmap)
+
+# load city population dataset from {usmap}
+cities_t <- usmap::usmap_transform(citypop) %>%
+    # remove DC from dataset
+    dplyr::filter(!state %in% c('District of Columbia')) %>%
+    # sort by state
+    dplyr::arrange(state)
+
+gt_table <- cities_t %>% 
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    # create a {gt} table
+    gt::gt() %>% 
+    # add comma delimeters to the city_pop column
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    # apply the espn theme from {gtExtras}
+    gtExtras::gt_theme_espn() %>%
+    # add a title and subtitle to the table
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010") 
+
+gt_table
+```
+
+# Extracting the HTML content from a {gt} table
+
+An important thing to note here is that if we were to apply a {gt} table, such as the one above, directly to {ggiraph}, it would not appear in our tooltip. If you remember earlier when we were using the {kableExtra} package, the tooltip column we created for our tables contained the raw HTML of the table. That is because, by default, {kableExtra} gives you the HTML content that was used to create the table. The {gt} package, however, does not do this by default. Thankfully, though, there is a way of extracting the HTML content of the table using the `gt::as_raw_html()` function. We can do this by simply piping the table we created directly into the `gt::as_raw_html()` function as shown below:
+
+```{r htmloutput, max.lines=5}
+# get HTML content from {gt} table
+gt_table_html <- gt_table %>%
+    gt::as_raw_html() 
+```
+
+Now that we have the HTML content of our {gt} table, we can follow the same steps as we did above with our {kableExtra} tables to create a table for each row, or state, in the dataset: 
+
+```{r interactive}
+make_table <- function(name) {
+  cities_t %>% 
+    # filter by state name
+    dplyr::filter(state == name) %>%
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    gt::gt() %>% 
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    gtExtras::gt_theme_espn() %>%
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010") %>%
+    # get HTML content of table
+    gt::as_raw_html()
+}
+
+cities_t <- cities_t %>%
+  dplyr::mutate(tooltip = purrr::map(state, make_table))
+
+gg_map <- usmap::plot_usmap(fill = "white", alpha = 0.25) +
+        ggiraph::geom_point_interactive(
+          data = cities_t, 
+          ggplot2::aes(
+            x = x,
+            y = y,
+            size = city_pop,
+            tooltip = tooltip,
+            data_id = state
+          ),
+          color = "purple",
+          alpha = 0.8
+        ) +
+  scale_size_continuous(range = c(1, 16),
+                        label = scales::comma) +
+  labs(title = "Most Populous City in Each State",
+       subtitle = "Source: US Census 2010",
+       size = "City Population") +
+  theme(legend.position = "right")
+
+ggiraph::girafe(ggobj = gg_map)
+```
+
+# Using conditional formatters from {gtExtras}
+
+Let's say that we wanted to add a column to our table that shows a horizontal bar chart for each city's population. We can do so by adding `gtExtras::gt_color_rows()` to our table as shown below: 
+
+```{r usmap}
+cities_t <- usmap_transform(citypop) %>%
+  dplyr::filter(!state %in% c('District of Columbia','Alaska','Hawaii')) %>%
+  dplyr::arrange(state)
+
+gt_table <- cities_t %>% 
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    gt::gt() %>% 
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    # add horizontal bar chart to values based on relative population size
+    gtExtras::gt_plt_bar(city_pop, keep_column = TRUE) %>%
+    gtExtras::gt_theme_espn() %>%
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010")
+
+gt_table
+```
+
+As you can see, the size of each bar is relative to the overall distribution of population sizes within the column. This would be something fun to add to our tooltip, but look what happens when we do using the same method as before:
+
+```{r barplots}
+make_table <- function(name) {
+  cities_t %>% 
+    # filter by state name
+    dplyr::filter(state == name) %>%
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    gt::gt() %>% 
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    # add horizontal bar chart to values based on relative population size
+    gtExtras::gt_plt_bar(city_pop, keep_column = TRUE) %>%
+    gtExtras::gt_theme_espn() %>%
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010") %>%
+    # get HTML content of table
+    gt::as_raw_html()
+}
+
+cities_t <- cities_t %>%
+  dplyr::mutate(tooltip = purrr::map(state, make_table))
+
+gg_map <- usmap::plot_usmap(fill = "white", alpha = 0.25) +
+        ggiraph::geom_point_interactive(
+          data = cities_t, 
+          ggplot2::aes(
+            x = x,
+            y = y,
+            size = city_pop,
+            tooltip = tooltip,
+            data_id = state
+          ),
+          color = "purple",
+          alpha = 0.8
+        ) +
+  scale_size_continuous(range = c(1, 16),
+                        label = scales::comma) +
+  labs(title = "Most Populous City in Each State",
+       subtitle = "Source: US Census 2010",
+       size = "City Population") +
+  theme(legend.position = "right")
+
+ggiraph::girafe(ggobj = gg_map)
+```
+
+Did you notice in the map above that all of the purple bar charts were exactly the same length regardless of which state you hovered over? That's because `gtExtras::gt_plt_bar()` determines the length of each horizontal bar based on how that value compares to other values within the column. But, since we filter each state BEFORE building our {gt} table, `gtExtras::gt_plt_bar()` only sees one value within the column and assigns it the same length regardless if the value is 1 or 10,000 because it has no other value to compare it with. 
+
+You may be wondering why we didn't apply our `dplyr::filter()` after building our {gt} table instead of before, and the reason is simply because we can't. Once we pass data through a {gt} table, it gets converted to a `gt_tbl` object and is no longer compatible with `dplyr` functions. However, through some HTML-parsing trickery outlined in the next section, we can still filter our {gt} table thanks to the extracted HTML content via `gt::as_raw_html()`.
+
+# Extracting HTML content from {gt} tables
+
+### HTML table basics
+
+Before diving in to the HTML output from {gt} tables, it may help to understand the basic structure of HTML tables.
+
+Below is a simple example of a table created with HTML. Every HTML table starts with `<table>` and ends with `</table>`. Within the table, the names of the columns are defined in table header, or `<th>` cells which appear as `<th>Column Name</th>`. Each row in the table starts with `<tr>` and the data values are stored within `<td>Value</td>`. 
+
+```{r htmlex, eval=FALSE}
+"<table>
+  <tr>
+    <th>Column 1</th>
+  </tr>
+  <tbody>
+    <tr>
+      <td>Row 1</td>
+    </tr>
+    <tr>
+      <td>Row 2</td>
+    </tr>
+  </tbody>
+</table>"
+```
+
+```{=html}
+<table>
+  <tr>
+    <th>Column 1</th>
+  </tr>
+  <tbody>
+    <tr>
+      <td>Row 1</td>
+    </tr>
+    <tr>
+      <td>Row 2</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+There are many additional options within HTML tables, such as a table title (`<caption>`), a table footer (`<tfoot>`), and styling elements that contain CSS code. 
+
+However, it's not necessary to know all of that, because all we're looking for are the names of the states within the table. And given the info above, we know the states will be contained within a row (`<tr>`) followed by a data cell (`<td>`) containing the state name, such as: `<tr><td>California`.
+
+### Extracting the head of the table
+
+I mentioned that we will be filtering the part of the table that contains the data for each state so that we can capture the correct size of the horizontal bar charts based on the state's population. However, before we do that, we need to extract the head of table first. Once we have the HTML content for the head of the table, we can append the HTML content for each one of the states to it so that we can have a complete HTML table for each state. 
+
+To get the HTML content for the head of the table, we can convert the output to a character vector and use `strsplit()` to split the vector at the point when reach `<tr><td` which marks the start of the rows that contain our state data. When we run this, it splits our table before each row and stores it within a list. Since we have 48 continental states within our dataset plus the header of the table (remember, even the table headers in an HTML table start with `<tr>`), our list will contain 49 elements in total:
+
+```{r gtespn}
+# the code used to create our dataset and HTML table:
+cities_t <- usmap_transform(citypop) %>%
+  dplyr::filter(!state %in% c('District of Columbia','Alaska','Hawaii')) %>%
+  dplyr::arrange(state)
+
+gt_table_html <- cities_t %>% 
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    gt::gt() %>% 
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    gtExtras::gt_plt_bar(city_pop, keep_column = TRUE) %>%
+    gtExtras::gt_theme_espn() %>%
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010") %>%
+    gt::as_raw_html()
+```
+
+```{css, echo=FALSE}
+/* CSS code to prevent HTML output from truncating in output */ 
+pre code {
+  white-space: pre-wrap;
+}
+```
+
+```{r strsplit}
+length(strsplit(as.character(gt_table_html), "<tr><td")[[1]])
+```
+
+So, based on what we described above, the head of the table will be contained within the first element of our list, while the data for the states will be contained in the other elements.
+
+Let's store the head of the table as `table_head` so that we can append the HTML for the states to it later:
+
+```{r htmlheader}
+table_head <- strsplit(as.character(gt_table_html), "<tr><td")[[1]][1]
+table_head
+```
+
+### Extracting the body of the table
+
+The data for the states are stored within elements 2 through 49. Before creating the table, we sorted the states in alphabetical order, so the first state that appears in our HTML should be Alabama. There's a lot of style content within the HTML output shown below, but if you look close enough, you should be able to see the state name (Alabama), city (Birmingham), and population (212,237).
+
+```{r htmlbody}
+strsplit(as.character(gt_table_html), "<tr><td")[[1]][2]
+```
+
+In order to pull the HTML content for each of the remaining states in our dataset, we will need to create a for loop that will go through each element in our list, extract the HTML content, and append it to the `table_head` we created in the previous section and store it in a vector called `html_tables`. 
+
+A couple quick things to note are when we use `strsplit()` to split the HTML on `<tr><td`, `strsplit()` actually will remove the `<tr><td` during the split. So, in order to add it back in, we can just paste it before the split. The other thing is we will need to add `</tbody></table>` to the end of the table body to tell the HTML to close the body and table so that the table can be created. 
+
+```{r htmlfunction}
+table_body <- c()
+for (i in 2:49) {
+  table_body[i - 1] <-
+    paste0("<tr><td",
+           strsplit(as.character(gt_table_html), "<tr><td")[[1]][i],
+           "</tbody></table>")
+  html_tables <- paste0(table_head, table_body)
+}
+```
+
+### Adding the tables to our tooltip
+
+To use the HTML tables we created for each state, we will need to create a column containing the code for the HTML within our dataset so that we can call it within the tooltip of `ggiraph::geom_point_interactive()` just as we did in prior sections.  
+
+Now, when we hover over each state, you can see that our bar charts are displaying properly!
+
+```{r tabletooltip}
+cities_t <- cities_t %>%
+  dplyr::mutate(tooltip = data.frame(html_tables))
+
+gg_map <- usmap::plot_usmap(fill = "white", alpha = 0.25) +
+        ggiraph::geom_point_interactive(
+          data = cities_t, 
+          ggplot2::aes(
+            x = x,
+            y = y,
+            size = city_pop,
+            tooltip = tooltip$html_tables,
+            data_id = state
+          ),
+          color = "purple",
+          alpha = 0.8
+        ) +
+  scale_size_continuous(range = c(1, 16),
+                        label = scales::comma) +
+  labs(title = "Most Populous City in Each State",
+       subtitle = "Source: US Census 2010",
+       size = "City Population") +
+  theme(legend.position = "right")
+
+ggiraph::girafe(ggobj = gg_map)
+```
+
+# Anoter example of using conditional formatters from {gtExtras} in interactive tooltips
+
+Now that we went over step-by-step on how to add conditional formatters from {gtExtras} to our tooltips, I'll quickly share another example of how we can create an interactive choropleth map with {ggiraph} and match the color of the state on the map, which pertains to the state's city with the largest population, to the color of the population within our {gt} table. 
+
+Here is the same table we created in the previous section but with `gtExtras::gt_color_rows()` applied to the city_pop column:
+
+```{r gtcolor}
+cities_t <- usmap_transform(citypop) %>%
+  dplyr::filter(!state %in% c('District of Columbia','Alaska','Hawaii')) %>%
+  dplyr::arrange(state)
+
+gt_table <- cities_t %>% 
+    dplyr::arrange(state) %>%
+    dplyr::select(state, city = most_populous_city, city_pop) %>% 
+    gt::gt() %>% 
+    gt::fmt_number(columns = city_pop, decimals = 0) %>%
+    gtExtras::gt_color_rows(city_pop, palette = "ggsci::blue_material") %>%
+    gtExtras::gt_theme_espn() %>%
+    gt::tab_header(title = "Most Populous City in Each State", subtitle = "Source: US Census 2010")
+
+gt_table
+```
+
+And here is a choropleth map created with {ggplot2} and {ggriaph} without the interactive tooltip activated:
+
+```{r choro}
+states_map <- ggplot2::map_data("state")
+cities_t$state <- tolower(cities_t$state)
+
+gg_map <- ggplot(cities_t, aes(map_id = state)) +
+  ggiraph::geom_map_interactive(
+    aes(
+      fill = city_pop,
+      data_id = state
+    ),
+    color = "white",
+    map = states_map
+  ) +
+  expand_limits(x = states_map$long, y = states_map$lat) +
+  ggsci::scale_fill_material("blue",
+                             label = scales::comma) +
+  labs(title = "Most Populous City in Each State",
+       subtitle = "Source: US Census 2010",
+       fill = "City Population") +
+  theme_void()
+
+gg_map
+```
+
+By following the same steps in the previous section, we can extract the HTML content from our {gt} table and build our tooltip that contains the same shade of blue for each state that is seen on the map. 
+
+```{r choromap}
+# get HTML content from the {gt} table
+gt_table_html <- gt_table %>%
+  gt::as_raw_html()
+
+# extract HTML content in the head of the table
+table_head <- strsplit(as.character(gt_table_html), "<tr><td")[[1]][1]
+
+# extract HTML content from the body of the table for each state
+table_body <- c()
+for (i in 2:49) {
+  table_body[i - 1] <-
+    paste0("<tr><td",
+           strsplit(as.character(gt_table_html), "<tr><td")[[1]][i],
+           "</tbody></table>")
+  html_tables <- paste0(table_head, table_body)
+}
+
+# add the HTML tables to our dataset
+cities_t <- cities_t %>%
+  dplyr::mutate(tooltip = data.frame(html_tables))
+
+gg_map <- ggplot(cities_t, aes(map_id = state)) +
+  ggiraph::geom_map_interactive(
+    aes(
+      fill = city_pop,
+      data_id = state,
+      tooltip = tooltip$html_tables
+    ),
+    color = "white",
+    map = states_map
+  ) +
+  expand_limits(x = states_map$long, y = states_map$lat) +
+  ggsci::scale_fill_material("blue",
+                             label = scales::comma) +
+  labs(title = "Most Populous City in Each State",
+       subtitle = "Source: US Census 2010",
+       fill = "City Population") +
+  theme_void()
+
+ggiraph::girafe(ggobj = gg_map, width_svg = 5, height_svg = 3)
+```
+
+# Other table-making packages
+
+In this tutorial, we've gone through how to build {kableExtra}, {gt}/{gtExtras} tables and place them within {ggiraph} tooltips. Because we need the raw HTML of the table output in order for {ggiraph} to use the table as a tooltip, that limits the types of table-building packages we can use. For example, tables built with {reactable}/{reactablefmtr} are not compatible with {ggiraph} because their output is in JSON format. Thankfully, the {kableExtra} and {gt}/{gtExtras} packages are highly flexible and should give you all the customization options you need for your tooltips.  
+

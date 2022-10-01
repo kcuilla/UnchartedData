@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://uncharteddata.netlify.app/about.html</loc>
-    <lastmod>2021-07-26T08:35:45-04:00</lastmod>
+    <lastmod>2022-05-25T15:44:18-04:00</lastmod>
   </url>
   <url>
     <loc>https://uncharteddata.netlify.app/</loc>
     <lastmod>2021-06-10T15:11:39-04:00</lastmod>
   </url>
   <url>
+    <loc>https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables/</loc>
+    <lastmod>2022-10-01T12:25:48-04:00</lastmod>
+  </url>
+  <url>
     <loc>https://uncharteddata.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/</loc>
-    <lastmod>2021-06-10T16:37:11-04:00</lastmod>
+    <lastmod>2022-03-31T16:40:37-04:00</lastmod>
   </url>
   <url>
     <loc>https://uncharteddata.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/</loc>
