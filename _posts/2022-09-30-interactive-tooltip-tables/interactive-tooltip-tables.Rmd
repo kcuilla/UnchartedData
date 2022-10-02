@@ -588,6 +588,25 @@ gg_map <- ggplot(cities_t, aes(map_id = state)) +
 ggiraph::girafe(ggobj = gg_map, width_svg = 5, height_svg = 3)
 ```
 
+## Display table in stable form
+
+If you don't want the tables to follow the cursor as you hover, you can place them in a stable position by setting `use_cursor_pos` to FALSE and adjusting the position of where you want the table to be displayed by utilizing the `offx` and `offy` options within `opts_tooltip()` of {ggiraph}:
+
+```{r}
+ggiraph::girafe(
+  ggobj = gg_map,
+  options = list(opts_tooltip(
+    offx = 50,
+    offy = 425,
+    use_cursor_pos = FALSE
+  )),
+  width_svg = 5,
+  height_svg = 3
+)
+```
+
+<br><br><br><br><br>
+
 # Other table-making packages
 
 In this tutorial, we've gone through how to build {kableExtra}, {gt}/{gtExtras} tables and place them within {ggiraph} tooltips. Because we need the raw HTML of the table output in order for {ggiraph} to use the table as a tooltip, that limits the types of table-building packages we can use. For example, tables built with {reactable}/{reactablefmtr} are not compatible with {ggiraph} because their output is in JSON format. Thankfully, the {kableExtra} and {gt}/{gtExtras} packages are highly flexible and should give you all the customization options you need for your tooltips.  
