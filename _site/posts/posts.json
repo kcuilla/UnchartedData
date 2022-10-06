@@ -22,6 +22,29 @@
     "input_file": {}
   },
   {
+    "path": "posts/2022-09-20-gas-price-app/",
+    "title": "U.S. Gas Price App",
+    "description": "An automated Shiny app that displays weekly U.S. gas prices.",
+    "author": [
+      {
+        "name": "Kyle Cuilla",
+        "url": {}
+      }
+    ],
+    "date": "2022-09-20",
+    "categories": [
+      "shiny",
+      "data visualization",
+      "github actions"
+    ],
+    "contents": "\r\nU.S. Gas Prices Visualized\r\nWhen gas prices skyrocketed to record highs earlier this year, I began building an interactive web app to track the current and historic trends across major U.S. cities.\r\nThe goals of the app were: 1) to create a product that allows myself and users to interactively explore both the recent and historic trends so that more context could be provided around high (or low) the gas prices have been, and 2) to fully automate all components of the app so that I didn’t have to spend time updating it every week.\r\nThe final product can be found here: U.S. Gas Prices, and the code behind the entire project can be found on my GitHub here: U.S. Gas Price Repo.\r\n\r\nAbout the data\r\nThe data is sourced from the U.S. Energy Information Administration’s (weekly gas update). At the start of each week, the EIA updates the average prices for regular, midgrade, and premium retail gas. The data is available for a handful of cities across the U.S., as well as the overall average for the U.S..\r\nThis data is accessible via EIA’s API. I used the {eia} package is used to connect to the API and pull the data in a tidy format.\r\nAutomatic updating\r\nThe data is updated every Tuesday evening after the EIA refreshes the data on their site. This is done automatically via GitHub Actions. Once the new data is pulled, the visualizations and text are refreshed and the updated app is automatically deployed to shinyapps.io. The script for the GitHub Actions workflow can be found here.\r\nShiny app\r\nThe framework for this Shiny app was made using the {golem} package and displayed using the {fullPage} package by John Coene.\r\nA huge thank you to John for creating many packages that are used for this app, including the aforementioned {fullPage} package and {typedjs}. This app was also largely inspired by John’s Freedom of the Press app which can be found in RStudio’s Shiny Gallery.\r\nThe packages used to create the visualizations include {highcharter}, {ggiraph}, and {reactablefmtr}.\r\nAn example of the user-interactivity features can be seen below:\r\n\r\nMobile & Desktop friendly\r\nThe site is optimized for viewing on both mobile and desktop devices. I used the {shinybrowser} package to detect the user’s device and display the visuals so that they optimally fit on the user’s device.\r\nMobile\r\nDesktop\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "posts/2022-09-20-gas-price-app/img/main_demo.PNG",
+    "last_modified": "2022-10-06T15:36:23-04:00",
+    "input_file": {},
+    "preview_width": 2000,
+    "preview_height": 1600
+  },
+  {
     "path": "posts/2021-03-11-introducing-the-reactablefmtr-package/",
     "title": "Introducing the {reactablefmtr} Package",
     "description": "An R package created to make the styling and customization of {reactable} tables easier.",

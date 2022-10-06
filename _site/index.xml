@@ -22,6 +22,18 @@
       <media:content url="https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables/img/gas_map_demo.gif" medium="image" type="image/gif"/>
     </item>
     <item>
+      <title>U.S. Gas Price App</title>
+      <dc:creator>Kyle Cuilla</dc:creator>
+      <link>https://uncharteddata.netlify.app/posts/2022-09-20-gas-price-app</link>
+      <description>An automated Shiny app that displays weekly U.S. gas prices.</description>
+      <category>shiny</category>
+      <category>data visualization</category>
+      <category>github actions</category>
+      <guid>https://uncharteddata.netlify.app/posts/2022-09-20-gas-price-app</guid>
+      <pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://uncharteddata.netlify.app/posts/2022-09-20-gas-price-app/img/main_demo.PNG" medium="image" type="image/png" width="2000" height="1600"/>
+    </item>
+    <item>
       <title>Introducing the {reactablefmtr} Package</title>
       <dc:creator>Kyle Cuilla</dc:creator>
       <link>https://uncharteddata.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package</link>
