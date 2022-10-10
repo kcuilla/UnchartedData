@@ -2157,9 +2157,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     .distill-site-header {
       --title-size:       18px;
       --text-color:       #000;                     
-        --text-size:        15px;
+      --text-size:        15px;
       --hover-color:      #ff00ff;                  
-        --bkgd-color:       #fff;                     
+      --bkgd-color:       #fff;  
+      --background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255,255,255,0.5));   
+      --background-color: transparent;
     }
 
   .distill-site-footer {
@@ -2173,7 +2175,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     
   .categories li > a:hover {
       color: #1e90ff;
-        border-bottom: 1px #1e90ff;
+      border-bottom: 1px #1e90ff;
     }
 
   p a:hover  {
@@ -2197,6 +2199,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .posts-list > h1 {
     font-weight: 700;
   }
+
+  /*d-article pre {
+    background: rgba(15, 46, 61, 0.5);
+  }*/
 
   .angolia-autocomplete {
     width: 300px;
@@ -2378,6 +2384,28 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="UNCHARTED DATA">UNCHARTED DATA</h1>
+<a href="posts/2022-10-07-automating-workflows-with-github-actions/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["github actions","tutorial","automation","shiny"]}</script>
+<div class="metadata">
+<div class="publishedDate">Oct. 7, 2022</div>
+<div class="dt-authors">
+<div class="dt-author">Kyle Cuilla</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2022-10-07-automating-workflows-with-github-actions/img/automation.gif"/>
+</div>
+<div class="description">
+<h2>Automating Workflows with GitHub Actions</h2>
+<div class="dt-tags">
+<div class="dt-tag">github actions</div>
+<div class="dt-tag">tutorial</div>
+<div class="dt-tag">automation</div>
+<div class="dt-tag">shiny</div>
+</div>
+<p>How to automate data collection and app deployment with GitHub Actions.</p>
+</div>
+</a>
 <a href="posts/2022-09-30-interactive-tooltip-tables/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["tutorial","data visualization","ggplot2","purrr"]}</script>
 <div class="metadata">
@@ -2475,7 +2503,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif"/>
+<img data-src="https://media.giphy.com/media/26AHLNr8en8J3ovOo/giphy.gif"/>
 </div>
 <div class="description">
 <h2>Importing Multiple Files Quickly and Efficiently</h2>
@@ -2644,7 +2672,11 @@ function init_posts_list() {
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(12)</span>
+<span class="category-count">(13)</span>
+</li>
+<li>
+<a href="#category:automation">automation</a>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:crosstalk">crosstalk</a>
@@ -2672,7 +2704,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:github_actions">github actions</a>
-<span class="category-count">(1)</span>
+<span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:highcharter">highcharter</a>
@@ -2696,7 +2728,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:shiny">shiny</a>
-<span class="category-count">(1)</span>
+<span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:tidytuesday">tidytuesday</a>
@@ -2708,7 +2740,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:tutorial">tutorial</a>
-<span class="category-count">(9)</span>
+<span class="category-count">(10)</span>
 </li>
 </ul>
 </div>

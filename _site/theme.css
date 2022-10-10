@@ -49,9 +49,11 @@ html {
   .distill-site-header {
     --title-size:       18px;
     --text-color:       #000;                     
-      --text-size:        15px;
+    --text-size:        15px;
     --hover-color:      #ff00ff;                  
-      --bkgd-color:       #fff;                     
+    --bkgd-color:       #fff;  
+    --background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255,255,255,0.5));   
+    --background-color: transparent;
   }
 
 .distill-site-footer {
@@ -65,7 +67,7 @@ html {
   
 .categories li > a:hover {
     color: #1e90ff;
-      border-bottom: 1px #1e90ff;
+    border-bottom: 1px #1e90ff;
   }
 
 p a:hover  {
@@ -89,6 +91,10 @@ d-article h2,
 .posts-list > h1 {
   font-weight: 700;
 }
+
+/*d-article pre {
+  background: rgba(15, 46, 61, 0.5);
+}*/
 
 .angolia-autocomplete {
   width: 300px;
