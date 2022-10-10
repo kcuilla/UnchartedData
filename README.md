@@ -16,3 +16,4 @@ Some of the content I've created:
 | [Animating Charts with {gganimate}](https://uncharteddata.netlify.app/posts/2021-03-10-animating-charts-with-gganimate/)                                      | How to use {gganimate} to animate plots in {ggplot2}                     |
 | [Introduction to {reactablefmtr}](https://uncharteddata.netlify.app/posts/2021-03-11-introducing-the-reactablefmtr-package/)                                      | Brief introduction to the {reactablefmtr} package                    |
 | [Interactive Tooltip Tables](https://uncharteddata.netlify.app/posts/2022-09-30-interactive-tooltip-tables/)  | How to include tables in your {ggiraph} tooltips |
+| [Automating Workflows with GitHub Actions](https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/) | How to automate data collection and app deployment with GitHub Actions |
