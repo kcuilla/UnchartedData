@@ -95,8 +95,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <link rel="canonical" href="https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"/>
 
 <!--  https://schema.org/Article -->
-<meta property="article:published" itemprop="datePublished" content="2022-10-07"/>
-<meta property="article:created" itemprop="dateCreated" content="2022-10-07"/>
+<meta property="article:published" itemprop="datePublished" content="2022-10-09"/>
+<meta property="article:created" itemprop="dateCreated" content="2022-10-09"/>
 <meta name="article:author" content="Kyle Cuilla"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -118,14 +118,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="UNCHARTED DATA: Automating Workflows with GitHub Actions"/>
 <meta name="citation_fulltext_html_url" content="https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"/>
-<meta name="citation_online_date" content="2022/10/07"/>
-<meta name="citation_publication_date" content="2022/10/07"/>
+<meta name="citation_online_date" content="2022/10/09"/>
+<meta name="citation_publication_date" content="2022/10/09"/>
 <meta name="citation_author" content="Kyle Cuilla"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","base_url","categories","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Automating Workflows with GitHub Actions"]},{"type":"character","attributes":{},"value":["How to automate data collection and app deployment with GitHub Actions."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Kyle Cuilla"]}]}]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/"]},{"type":"character","attributes":{},"value":["github actions","tutorial","automation","shiny"]},{"type":"character","attributes":{},"value":["2022-10-07"]},{"type":"character","attributes":{},"value":["img/automation.gif"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","base_url","categories","date","preview","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["Automating Workflows with GitHub Actions"]},{"type":"character","attributes":{},"value":["How to automate data collection and app deployment with GitHub Actions."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Kyle Cuilla"]}]}]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/"]},{"type":"character","attributes":{},"value":["github actions","tutorial","automation","shiny"]},{"type":"character","attributes":{},"value":["2022-10-09"]},{"type":"character","attributes":{},"value":["img/automation.gif"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"]},{"type":"character","attributes":{},"value":["https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -3247,7 +3247,7 @@ d-article h2,
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Automating Workflows with GitHub Actions","description":"How to automate data collection and app deployment with GitHub Actions.","authors":[{"author":"Kyle Cuilla","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-10-07T00:00:00.000-04:00","citationText":"Cuilla, 2022"}
+{"title":"Automating Workflows with GitHub Actions","description":"How to automate data collection and app deployment with GitHub Actions.","authors":[{"author":"Kyle Cuilla","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2022-10-09T00:00:00.000-04:00","citationText":"Cuilla, 2022"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -3285,7 +3285,7 @@ d-article h2,
 <div class="d-byline">
   Kyle Cuilla  
   
-<br />2022-10-07
+<br />2022-10-09
 </div>
 
 <div class="d-article">
@@ -3463,14 +3463,6 @@ jobs:
           install.packages(c(&quot;remotes&quot;, &quot;rsconnect&quot;))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-    
-      - name: Cache packages
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.RENV_PATHS_ROOT }}
-          key: ${{ runner.os }}-renv-${{ hashFiles(&#39;**/renv.lock&#39;) }}
-          restore-keys: |
-            ${{ runner.os }}-renv-
       
       - name: Restore packages
         shell: Rscript {0}
@@ -3509,7 +3501,7 @@ jobs:
 <div class="appendix-bottom">
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Cuilla (2022, Oct. 7). UNCHARTED DATA: Automating Workflows with GitHub Actions. Retrieved from https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/</pre>
+  <pre class="citation-appendix short">Cuilla (2022, Oct. 9). UNCHARTED DATA: Automating Workflows with GitHub Actions. Retrieved from https://uncharteddata.netlify.app/posts/2022-10-07-automating-workflows-with-github-actions/</pre>
   <p>BibTeX citation</p>
   <pre class="citation-appendix long">@misc{cuilla2022automating,
   author = {Cuilla, Kyle},
